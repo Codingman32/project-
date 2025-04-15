@@ -7,19 +7,29 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #1e1e1e;
+            color: white;
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
         header {
             background-color: #333;
             color: white;
             padding: 10px 0;
             text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
         }
         nav {
             background-color: #444;
             overflow: hidden;
+            position: fixed;
+            top: 50px;
+            width: 100%;
+            z-index: 99;
         }
         nav a {
             color: white;
@@ -33,30 +43,32 @@
             color: black;
         }
         main {
-            padding: 20px;
+            padding: 80px 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 120px);
         }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
+        iframe {
+            width: 80%;
+            height: 80%;
+            border: none;
+            background-color: #000;
+        }
+        .panic-button {
             position: fixed;
-            width: 100%;
-            bottom: 0;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 101;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin: 10px 0;
-        }
-        li a {
-            color: #333;
-            text-decoration: none;
-        }
-        li a:hover {
-            text-decoration: underline;
+        .panic-button:hover {
+            background-color: darkred;
         }
     </style>
 </head>
@@ -75,54 +87,41 @@
 </nav>
 
 <main>
-    <section id="action">
-        <h2>Action Games</h2>
-        <ul>
-            <li><a href="https://unblockedgames66ez.com" target="_blank">Unblocked Games 66 EZ</a></li>
-            <li><a href="https://unblockedgames77.com" target="_blank">Unblocked Games 77</a></li>
-            <li><a href="https://unblockedgames24h.com" target="_blank">Unblocked Games 24h</a></li>
-            <li><a href="https://unblockedgamespod.com" target="_blank">Unblocked Games Pod</a></li>
-            <li><a href="https://unblockedgames5000.com" target="_blank">Unblocked Games 5000</a></li>
-        </ul>
-    </section>
-
-    <section id="puzzle">
-        <h2>Puzzle Games</h2>
-        <ul>
-            <li><a href="https://poki.com" target="_blank">Poki</a></li>
-            <li><a href="https://coolmathgames.com" target="_blank">Cool Math Games</a></li>
-            <li><a href="https://mathplayground.com" target="_blank">Math Playground</a></li>
-            <li><a href="https://addictinggames.com" target="_blank">Addicting Games</a></li>
-            <li><a href="https://miniclip.com" target="_blank">Miniclip</a></li>
-        </ul>
-    </section>
-
-    <section id="strategy">
-        <h2>Strategy Games</h2>
-        <ul>
-            <li><a href="https://armorgames.com" target="_blank">Armor Games</a></li>
-            <li><a href="https://kongregate.com" target="_blank">Kongregate</a></li>
-            <li><a href="https://newgrounds.com" target="_blank">Newgrounds</a></li>
-            <li><a href="https://nitrome.com" target="_blank">Nitrome</a></li>
-            <li><a href="https://crazygames.com" target="_blank">Crazy Games</a></li>
-        </ul>
-    </section>
-
-    <section id="sports">
-        <h2>Sports Games</h2>
-        <ul>
-            <li><a href="https://basketballgames.io" target="_blank">Basketball Games</a></li>
-            <li><a href="https://soccergames.io" target="_blank">Soccer Games</a></li>
-            <li><a href="https://hockeygames.io" target="_blank">Hockey Games</a></li>
-            <li><a href="https://baseballgames.io" target="_blank">Baseball Games</a></li>
-            <li><a href="https://tennisgames.io" target="_blank">Tennis Games</a></li>
-        </ul>
-    </section>
+    <iframe id="gameFrame" src="about:blank"></iframe>
 </main>
 
-<footer>
-    <p>&copy; 2025 Unblocked Games Hub | All rights reserved</p>
-</footer>
+<button class="panic-button" onclick="activatePanicMode()">Panic Mode</button>
+
+<script>
+    const gameLinks = {
+        action: "https://unblockedgames66ez.com",
+        puzzle: "https://coolmathgames.com",
+        strategy: "https://armorgames.com",
+        sports: "https://basketballgames.io"
+    };
+
+    const iframe = document.getElementById("gameFrame");
+
+    document.querySelectorAll("nav a").forEach(link => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const category = event.target.getAttribute("href").substring(1);
+            iframe.src = gameLinks[category];
+        });
+    });
+
+    function activatePanicMode() {
+        iframe.src = "about:blank";
+        document.body.style.backgroundColor = "#fff";
+        document.body.style.color = "#000";
+        document.querySelector("header").style.backgroundColor = "#fff";
+        document.querySelector("header").style.color = "#000";
+        document.querySelector("nav").style.backgroundColor = "#fff";
+        document.querySelectorAll("nav a").forEach(link => {
+            link.style.color = "#000";
+        });
+    }
+</script>
 
 </body>
 </html>
