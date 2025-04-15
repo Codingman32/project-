@@ -6,84 +6,18 @@
   <link id="favicon" rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: 'Courier New', monospace;
-      background: #000;
-      color: #00ff00;
-    }
-    #matrix-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-    #toolbar {
-      background-color: rgba(0, 0, 0, 0.85);
-      border-bottom: 2px solid #00ff00;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    #toolbar button {
-      margin-left: 10px;
-      padding: 8px 12px;
-      background: #003300;
-      color: #00ff00;
-      border: 1px solid #00ff00;
-      cursor: pointer;
-    }
-    #toolbar button:hover {
-      background: #005500;
-    }
-    .button-group {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px;
-    }
-    .button-group button {
-      background: rgba(0, 51, 0, 0.8);
-      border: 1px solid #00ff00;
-      padding: 10px;
-      color: #00ff00;
-      cursor: pointer;
-    }
-    .button-group button:hover {
-      background: rgba(0, 77, 0, 0.9);
-    }
-    #gameFrame {
-      width: 95%;
-      height: 70vh;
-      margin: 20px auto;
-      display: block;
-      border: 2px solid #00ff00;
-      background: #000;
-    }
-    #statusMessage {
-      color: #00ff00;
-      font-size: 16px;
-      text-align: center;
-      margin-top: 10px;
-    }
-    #iframe-instructions {
-      color: #00ff00;
-      font-size: 18px;
-      text-align: center;
-      margin-top: 15px;
-      padding: 10px;
-      border: 1px solid #00ff00;
-      background-color: rgba(0, 51, 0, 0.8);
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: 'Courier New', monospace; background: #000; color: #00ff00; }
+    #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+    #toolbar { background-color: rgba(0,0,0,0.85); border-bottom: 2px solid #00ff00; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+    #toolbar button { margin-left: 10px; padding: 8px 12px; background: #003300; color: #00ff00; border: 1px solid #00ff00; cursor: pointer; }
+    #toolbar button:hover { background: #005500; }
+    .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px; }
+    .button-group button { background: rgba(0,51,0,0.8); border: 1px solid #00ff00; padding: 10px; color: #00ff00; cursor: pointer; }
+    .button-group button:hover { background: rgba(0,77,0,0.9); }
+    #gameFrame { width: 95%; height: 70vh; margin: 20px auto; display: block; border: 2px solid #00ff00; background: #000; }
+    #statusMessage { color: #00ff00; font-size: 16px; text-align: center; margin-top: 10px; }
+    #iframe-instructions { color: #00ff00; font-size: 18px; text-align: center; margin-top: 15px; padding: 10px; border: 1px solid #00ff00; background-color: rgba(0,51,0,0.8); }
   </style>
 </head>
 <body>
@@ -145,7 +79,7 @@
 
 <div id="iframe-instructions">
   <p><strong>How the Game Frame Works:</strong></p>
-  <p>The game iframe below is used to play various unblocked games directly on this page. If the game is blocked, you can click on the "Try Alternative Game" button that appears to load the game from a different URL.</p>
+  <p>The game iframe below is used to play various unblocked games directly on this page. If the game is blocked, it will automatically switch to an alternate URL after a short delay.</p>
 </div>
 
 <script>
@@ -154,7 +88,9 @@
   function loadGame(url, altUrl) {
     const iframe = document.getElementById("gameFrame");
     const statusMessage = document.getElementById("statusMessage");
-    const iframeInstructions = document.getElementById("iframe-instructions");
+
+    // Remove any previously added retry buttons.
+    document.querySelectorAll(".retry-btn").forEach(btn => btn.remove());
 
     iframe.src = url;
     iframe.style.display = "block";
@@ -166,14 +102,12 @@
     };
 
     iframe.onerror = function() {
-      statusMessage.textContent = "Game is blocked. Click below to try an alternative.";
-      const retryButton = document.createElement("button");
-      retryButton.textContent = "Try Alternative Game";
-      retryButton.onclick = function() {
+      statusMessage.textContent = "Game is blocked. Switching to alternative URL...";
+      // Automatically switch after a delay (500ms)
+      setTimeout(() => {
         iframe.src = altUrl;
         statusMessage.textContent = "Loading alternative game...";
-      };
-      document.body.appendChild(retryButton);
+      }, 500);
     };
   }
 
@@ -182,7 +116,7 @@
     iframe.src = "";
     iframe.style.display = "none";
     document.title = "Google Docs";
-    document.getElementById("favicon").href = "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico";
+    updateFavicon("https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico");
     gameFrameOn = false;
     updateStatusMessage();
   }
@@ -198,7 +132,20 @@
 
   function cloak(title, faviconURL) {
     document.title = title;
-    document.getElementById("favicon").href = faviconURL;
+    updateFavicon(faviconURL);
+  }
+
+  // Update favicon by recreating the element to force refresh (avoid caching issues)
+  function updateFavicon(url) {
+    let oldFavicon = document.getElementById("favicon");
+    if (oldFavicon) {
+      oldFavicon.parentNode.removeChild(oldFavicon);
+    }
+    let newFavicon = document.createElement("link");
+    newFavicon.id = "favicon";
+    newFavicon.rel = "icon";
+    newFavicon.href = url + "?v=" + new Date().getTime();
+    document.head.appendChild(newFavicon);
   }
 
   function updateStatusMessage() {
@@ -215,7 +162,6 @@
     const fontSize = 14;
     const columns = canvas.width / fontSize;
     const drops = Array.from({ length: columns }, () => 1);
-
     function draw() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -266,3 +212,4 @@
 </script>
 
 </body>
+</html>
