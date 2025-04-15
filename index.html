@@ -6,99 +6,80 @@
   <link id="favicon" rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
+    html, body {
       margin: 0;
-      background-color: black;
-      color: #0f0;
+      padding: 0;
+      background: black;
+      color: lime;
       font-family: monospace;
+      overflow: hidden;
+    }
+
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100vw;
+      height: 100vh;
     }
 
     #toolbar {
       display: flex;
       justify-content: space-between;
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 10px;
-      background-color: #111;
-      border-bottom: 1px solid #0f0;
+      font-weight: bold;
     }
 
     .button-group {
-      padding: 10px;
-      text-align: center;
-    }
-
-    button {
-      background-color: #111;
-      color: #0f0;
-      border: 1px solid #0f0;
-      padding: 8px 16px;
-      margin: 4px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background-color: #0f0;
-      color: black;
-    }
-
-    .thumbnail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       padding: 10px;
-      margin: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      overflow-y: auto;
     }
 
-    .thumb {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #111;
-      padding: 10px;
-      border: 1px solid #333;
-      border-radius: 6px;
+    .game-thumb {
+      width: 80px;
+      height: 80px;
+      border: 2px solid lime;
       cursor: pointer;
-      transition: 0.2s ease-in-out;
     }
 
-    .thumb img {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 5px;
-    }
-
-    .thumb span {
-      color: #0f0;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    .thumb:hover {
-      transform: scale(1.05);
-      border-color: #0f0;
-    }
-
-    #gameFrame {
+    iframe#gameFrame {
       width: 100%;
-      height: 600px;
+      height: 75vh;
       border: none;
-      background-color: #000;
-      margin-top: 20px;
+      display: none;
     }
 
-    #statusMessage {
-      text-align: center;
-      margin-top: 10px;
+    #switchUrlBtn, #statusMessage {
+      margin: 10px;
+      padding: 5px 10px;
+      background-color: black;
+      color: lime;
+      border: 1px solid lime;
+      display: none;
     }
 
     #iframe-instructions {
-      color: #0f0;
-      padding: 20px;
-      font-size: 14px;
+      padding: 10px;
+    }
+
+    button {
+      background-color: black;
+      color: lime;
+      border: 1px solid lime;
+      padding: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
+
+<canvas id="matrix-canvas"></canvas>
 
 <div id="toolbar">
   <div>Study Platform - Terminal Mode</div>
@@ -114,64 +95,106 @@
   <button onclick="cloak('Google Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">Cloak as Google Classroom</button>
 </div>
 
-<div class="thumbnail-grid" id="gameButtons">
-  <div class="thumb" onclick="loadGame('https://retrobowlunblocked.github.io')">
-    <img src="https://yourdomain.com/images/retro-bowl.png" alt="Retro Bowl">
-    <span>Retro Bowl</span>
-  </div>
-  <div class="thumb" onclick="loadGame('https://1v1.lol')">
-    <img src="https://yourdomain.com/images/1v1-lol.png" alt="1v1.LOL">
-    <span>1v1.LOL</span>
-  </div>
-  <div class="thumb" onclick="loadGame('https://geometrydashonline.com')">
-    <img src="https://yourdomain.com/images/geometry-dash.png" alt="Geometry Dash">
-    <span>Geometry Dash</span>
-  </div>
-  <div class="thumb" onclick="loadGame('https://slopegame.online')">
-    <img src="https://yourdomain.com/images/slope.png" alt="Slope">
-    <span>Slope</span>
-  </div>
-  <div class="thumb" onclick="loadGame('https://krunker.io')">
-    <img src="https://yourdomain.com/images/krunker.png" alt="Krunker">
-    <span>Krunker</span>
-  </div>
-  <div class="thumb" onclick="loadGame('https://cookieclickerunblocked.github.io')">
-    <img src="https://yourdomain.com/images/cookie-clicker.png" alt="Cookie Clicker">
-    <span>Cookie Clicker</span>
-  </div>
-  <div class="thumb" onclick="loadGame('https://run3unblocked.github.io')">
-    <img src="https://yourdomain.com/images/run3.png" alt="Run 3">
-    <span>Run 3</span>
-  </div>
-  <div class="thumb" onclick="loadGame('https://fnfunblocked.github.io')">
-    <img src="https://yourdomain.com/images/fnf.png" alt="Friday Night Funkin'">
-    <span>FNF</span>
-  </div>
-  <div class="thumb" onclick="loadGame('https://amongusunblocked.github.io')">
-    <img src="https://yourdomain.com/images/among-us.png" alt="Among Us">
-    <span>Among Us</span>
-  </div>
+<div class="button-group" id="gameButtons">
+  <!-- Thumbnails for games -->
+  <img src="https://img.icons8.com/ios-filled/100/retro-tv.png" alt="Retro Bowl" class="game-thumb" onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">
+  <img src="https://img.icons8.com/ios-filled/100/joystick.png" alt="UBG44" class="game-thumb" onclick="loadGame('https://ubg44.github.io', 'https://ubg98.github.io')">
+  <img src="https://img.icons8.com/ios-filled/100/controller.png" alt="UBG98" class="game-thumb" onclick="loadGame('https://ubg98.github.io', 'https://ubg44.github.io')">
+  <img src="https://img.icons8.com/ios-filled/100/sniper-rifle.png" alt="1v1.LOL" class="game-thumb" onclick="loadGame('https://1v1.lol', 'https://1v1.lol')">
+  <img src="https://img.icons8.com/ios-filled/100/mountain-biking.png" alt="Slope" class="game-thumb" onclick="loadGame('https://slopegame.online', 'https://geometrydashonline.com')">
+  <img src="https://img.icons8.com/ios-filled/100/square.png" alt="Geometry Dash" class="game-thumb" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
+  <img src="https://img.icons8.com/ios-filled/100/space-invaders.png" alt="Krunker" class="game-thumb" onclick="loadGame('https://krunker.io', 'https://alt.krunker.io')">
+  <img src="https://img.icons8.com/ios-filled/100/alien.png" alt="Diep.io" class="game-thumb" onclick="loadGame('https://diep.io', 'https://alt.diep.io')">
 </div>
 
-<iframe id="gameFrame" src=""></iframe>
+<iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+<button id="switchUrlBtn" onclick="switchToAltUrl()">Try Alternative Game</button>
 
-<div id="statusMessage"></div>
+<div id="statusMessage">Game Frame is OFF</div>
+
+<div id="iframe-instructions">
+  <p><strong>How the Game Frame Works:</strong></p>
+  <p>The game iframe below is used to play various unblocked games directly on this page. If the game is blocked or fails, it will automatically switch to an alternate URL, and you’ll get a manual option too.</p>
+</div>
 
 <script>
-  function loadGame(url) {
-    document.getElementById('gameFrame').src = url;
-    document.getElementById('statusMessage').textContent = 'Loading game...';
+  let currentPrimaryUrl = '';
+  let currentAltUrl = '';
+
+  function loadGame(primaryUrl, altUrl) {
+    currentPrimaryUrl = primaryUrl;
+    currentAltUrl = altUrl;
+    const frame = document.getElementById('gameFrame');
+    frame.src = primaryUrl;
+    frame.style.display = 'block';
+    document.getElementById('switchUrlBtn').style.display = 'inline-block';
+    document.getElementById('statusMessage').innerText = 'Game Loaded';
   }
 
-  function cloak(title, faviconUrl) {
+  function switchToAltUrl() {
+    document.getElementById('gameFrame').src = currentAltUrl;
+  }
+
+  function cloak(title, iconUrl) {
     document.title = title;
-    document.getElementById('favicon').href = faviconUrl;
+    document.getElementById('favicon').href = iconUrl;
   }
 
   function panic() {
-    window.location.href = 'https://www.google.com';
+    document.body.innerHTML = '<h1 style="color:black;">Loading Google Docs...</h1>';
+    document.title = "Google Docs";
+    document.getElementById('favicon').href = 'https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico';
   }
 
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch((err) => 
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // Matrix Effect
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  const letters = Array(256).join("01").split("");
+  const fontSize = 10;
+  const columns = canvas.width / fontSize;
+  const drops = Array.from({ length: columns }).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#0F0";
+    letters.forEach((letter, index) => {
+      const x = index * fontSize;
+      const y = drops[index] * fontSize;
+      ctx.fillText(letter, x, y);
+      if (y > canvas.height && Math.random() > 0.975) {
+        drops[index] = 0;
+      }
+      drops[index]++;
+    });
+  }
+  setInterval(drawMatrix, 50);
+
+  // Surveillance tab detection (GoGuardian/Classwize)
+  function detectMonitoringTabs() {
+    const keywords = ['classwize', 'goguardian'];
+    setInterval(() => {
+      const title = document.title.toLowerCase();
+      const url = window.location.href.toLowerCase();
+      if (keywords.some(k => title.includes(k) || url.includes(k))) {
+        alert("Monitoring software detected. Self-destruct initiated.");
+        window.close();
+        window.location.href = 'about:blank';
+      }
+    }, 3000);
+  }
+  detectMonitoringTabs();
+</script>
+
+</body>
+</html>
