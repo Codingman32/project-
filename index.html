@@ -120,7 +120,7 @@
 </div>
 
 <div class="button-group">
-  <!-- Game Buttons Group 2 (Extra Games) -->
+  <!-- Game Buttons Group 2 -->
   <button onclick="loadGame('https://tetris.com/play-tetris', 'https://alternative-url.com')">Tetris</button>
   <button onclick="loadGame('https://classic.minecraft.net', 'https://alternative-url.com')">Minecraft Classic</button>
   <button onclick="loadGame('https://slopeunblockedgame.com', 'https://alternative-url.com')">Slope Run Game</button>
@@ -149,7 +149,7 @@
 </div>
 
 <script>
-  let gameFrameOn = false; // To track the status of the iframe
+  let gameFrameOn = false;
 
   function loadGame(url, altUrl) {
     const iframe = document.getElementById("gameFrame");
@@ -183,8 +183,8 @@
     iframe.style.display = "none";
     document.title = "Google Docs";
     document.getElementById("favicon").href = "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico";
-    gameFrameOn = false; // Set iframe as inactive
-    updateStatusMessage(); // Update the status message
+    gameFrameOn = false;
+    updateStatusMessage();
   }
 
   function toggleFullScreen() {
@@ -231,7 +231,6 @@
   })();
 </script>
 
-<!-- Ad-blocking script -->
 <script>
   function blockAdsInIframe() {
     const iframe = document.getElementById('gameFrame');
