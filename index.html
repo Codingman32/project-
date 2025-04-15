@@ -90,34 +90,47 @@
 </div>
 
 <div class="button-group">
+  <!-- Cloaking buttons -->
   <button onclick="cloak('Google Docs', 'https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Cloak as Google Docs</button>
   <button onclick="cloak('Google Drive', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.ico')">Cloak as Google Drive</button>
   <button onclick="cloak('Google Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">Cloak as Google Classroom</button>
 </div>
 
 <div class="button-group">
+  <!-- Game Buttons Group 1 -->
   <button onclick="loadGame('https://retrobowlunblocked.github.io')">Retro Bowl</button>
   <button onclick="loadGame('https://ubg44.github.io')">UBG44</button>
   <button onclick="loadGame('https://ubg98.github.io')">UBG98</button>
   <button onclick="loadGame('https://1v1.lol')">1v1.LOL</button>
-  <button onclick="loadGame('https://classroom6x.org')">Classroom 6x</button>
-  <button onclick="loadGame('https://games.poki.com')">Poki</button>
+  <!-- Substitute for blocked Classroom6x -->
+  <button onclick="loadGame('https://unblockedgames66ez.github.io')">UBG66 EZ</button>
+  <!-- Substitute for blocked Poki -->
+  <button onclick="loadGame('https://unblockedgamespod.com')">Unblocked Games Pod</button>
   <button onclick="loadGame('https://geometrydashonline.com')">Geometry Dash</button>
   <button onclick="loadGame('https://slopegame.online')">Slope</button>
   <button onclick="loadGame('https://krunker.io')">Krunker</button>
   <button onclick="loadGame('https://diep.io')">Diep.io</button>
-  <!-- Added extra games -->
+</div>
+
+<div class="button-group">
+  <!-- Game Buttons Group 2 (Extra Games) -->
   <button onclick="loadGame('https://tetris.com/play-tetris')">Tetris</button>
   <button onclick="loadGame('https://classic.minecraft.net')">Minecraft Classic</button>
   <button onclick="loadGame('https://slopeunblockedgame.com')">Slope Run Game</button>
   <button onclick="loadGame('https://www.pacman.com')">Pac-Man</button>
   <button onclick="loadGame('https://www.tanktrouble.com')">Tank Trouble</button>
-  <!-- New games -->
   <button onclick="loadGame('https://flappybird.io')">Flappy Bird</button>
   <button onclick="loadGame('https://play2048.co')">2048</button>
   <button onclick="loadGame('https://www.crossyroad.com')">Crossy Road</button>
   <button onclick="loadGame('https://agar.io')">Agar.io</button>
   <button onclick="loadGame('https://www.totaljerkface.com')">Happy Wheels</button>
+  <button onclick="loadGame('https://www.stickmanhook.com')">Stickman Hook</button>
+  <!-- Five new game buttons -->
+  <button onclick="loadGame('https://www.silvergames.com/en/air-control')">Air Control</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/beach-soccer')">Beach Soccer</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/soccer-stars')">Soccer Stars</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/basketball-shoot')">Basketball Shoot</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/super-hexagon')">Super Hexagon</button>
 </div>
 
 <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
@@ -159,14 +172,10 @@
     document.getElementById("favicon").href = faviconURL;
   }
 
-  // Function to update the status message
+  // Function to update the status message indicating if the game frame is on or off
   function updateStatusMessage() {
     const statusMessage = document.getElementById("statusMessage");
-    if (gameFrameOn) {
-      statusMessage.textContent = "Game Frame is ON";
-    } else {
-      statusMessage.textContent = "Game Frame is OFF";
-    }
+    statusMessage.textContent = gameFrameOn ? "Game Frame is ON" : "Game Frame is OFF";
   }
 
   (function matrixRain() {
@@ -190,44 +199,48 @@
         drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
       });
     }
-
     setInterval(draw, 33);
   })();
 </script>
 
 <!-- Ad-blocking script -->
 <script>
-  // Function to block ads within the iframe
+  // Function to block ads within the iframe by continuously checking every second
   function blockAdsInIframe() {
     const iframe = document.getElementById('gameFrame');
     iframe.onload = function() {
       try {
-        const iframeDocument = iframe.contentWindow.document;
-        
-        // Example of ad elements to hide
-        const adSelectors = [
-          'iframe[src*="ads"]', // Ads in an iframe
-          '.ad', // General ad class
-          '.advertisement', // Specific ad class
-          '.ads', // Another common ad class
-          '.banner', // Banner ads
-          '.popup', // Popup ads
-          '[id*="ad"]', // IDs with 'ad' in them
-          '[class*="ad"]', // Classes with 'ad' in them
-        ];
-
-        // Hide ad elements based on the selectors
-        adSelectors.forEach(selector => {
-          const ads = iframeDocument.querySelectorAll(selector);
-          ads.forEach(ad => {
-            ad.style.display = 'none';
+        const iframeDoc = iframe.contentWindow.document;
+        function hideAds() {
+          const adSelectors = [
+            'iframe[src*="ads"]',
+            '.ad',
+            '.advertisement',
+            '.ads',
+            '.banner',
+            '.popup',
+            '[id*="ad"]',
+            '[class*="ad"]'
+          ];
+          adSelectors.forEach(selector => {
+            const ads = iframeDoc.querySelectorAll(selector);
+            ads.forEach(ad => ad.style.display = 'none');
           });
-        });
+        }
+        hideAds();
+        setInterval(hideAds, 1000);
       } catch (error) {
         console.error("Error blocking ads:", error);
       }
     };
   }
+  document.addEventListener('DOMContentLoaded', function() {
+    blockAdsInIframe();
+  });
+</script>
+
+</body>
+</html>
 
   // Call the function when the page loads
   document.addEventListener('DOMContentLoaded', function() {
