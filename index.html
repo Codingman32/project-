@@ -1,25 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title id="page-title">Google Docs</title>
-  <link id="favicon" rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link id="favicon" rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; font-family: 'Courier New', monospace; background: #000; color: #00ff00; }
-    #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-    #toolbar { background-color: rgba(0,0,0,0.85); border-bottom: 2px solid #00ff00; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-    #toolbar button { margin-left: 10px; padding: 8px 12px; background: #003300; color: #00ff00; border: 1px solid #00ff00; cursor: pointer; }
-    #toolbar button:hover { background: #005500; }
-    .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px; }
-    .button-group button { background: rgba(0,51,0,0.8); border: 1px solid #00ff00; padding: 10px; color: #00ff00; cursor: pointer; }
-    .button-group button:hover { background: rgba(0,77,0,0.9); }
-    #gameFrame { width: 95%; height: 70vh; margin: 20px auto; display: block; border: 2px solid #00ff00; background: #000; }
-    #statusMessage { color: #00ff00; font-size: 16px; text-align: center; margin-top: 10px; }
-    #iframe-instructions { color: #00ff00; font-size: 18px; text-align: center; margin-top: 15px; padding: 10px; border: 1px solid #00ff00; background-color: rgba(0,51,0,0.8); }
-    #switchUrlBtn { display: none; background: #222; color: #00ff00; padding: 8px 15px; border: 1px solid #00ff00; cursor: pointer; margin: 10px auto; display: block; text-align: center; }
-    #switchUrlBtn:hover { background-color: #003300; }
+    body {
+      margin: 0;
+      background-color: black;
+      color: #0f0;
+      font-family: monospace;
+    }
+
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+    }
+
+    #toolbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #111;
+      border-bottom: 1px solid #0f0;
+    }
+
+    .button-group {
+      padding: 10px;
+      text-align: center;
+    }
+
+    button {
+      background-color: #111;
+      color: #0f0;
+      border: 1px solid #0f0;
+      padding: 8px 16px;
+      margin: 4px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0f0;
+      color: black;
+    }
+
+    .thumbnail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      padding: 10px;
+      margin: 20px;
+    }
+
+    .thumb {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #111;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+    }
+
+    .thumb img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 5px;
+    }
+
+    .thumb span {
+      color: #0f0;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .thumb:hover {
+      transform: scale(1.05);
+      border-color: #0f0;
+    }
+
+    #gameFrame {
+      width: 100%;
+      height: 600px;
+      border: none;
+      background-color: #000;
+      margin-top: 20px;
+    }
+
+    #switchUrlBtn {
+      display: block;
+      margin: 10px auto;
+    }
+
+    #statusMessage {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    #iframe-instructions {
+      color: #0f0;
+      padding: 20px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -40,18 +130,47 @@
   <button onclick="cloak('Google Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">Cloak as Google Classroom</button>
 </div>
 
-<div class="button-group" id="gameButtons">
-  <!-- Add as many buttons as you want -->
-  <button onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">Retro Bowl</button>
-  <button onclick="loadGame('https://ubg44.github.io', 'https://ubg98.github.io')">UBG44</button>
-  <button onclick="loadGame('https://ubg98.github.io', 'https://ubg44.github.io')">UBG98</button>
-  <button onclick="loadGame('https://1v1.lol', 'https://1v1.lol')">1v1.LOL</button>
-  <button onclick="loadGame('https://unblockedgames66ez.github.io', 'https://ubg98.github.io')">UBG66 EZ</button>
-  <button onclick="loadGame('https://unblockedgamespod.com', 'https://ubg44.github.io')">Unblocked Games Pod</button>
-  <button onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">Geometry Dash</button>
-  <button onclick="loadGame('https://slopegame.online', 'https://geometrydashonline.com')">Slope</button>
-  <button onclick="loadGame('https://krunker.io', 'https://alt.krunker.io')">Krunker</button>
-  <button onclick="loadGame('https://diep.io', 'https://alt.diep.io')">Diep.io</button>
+<div class="thumbnail-grid" id="gameButtons">
+  <div class="thumb" onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">
+    <img src="https://img.icons8.com/color/96/retro.png" alt="Retro Bowl">
+    <span>Retro Bowl</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://1v1.lol', 'https://1v1.lol')">
+    <img src="https://img.icons8.com/color/96/crosshair.png" alt="1v1.LOL">
+    <span>1v1.LOL</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
+    <img src="https://img.icons8.com/fluency/96/geometry.png" alt="Geometry Dash">
+    <span>Geometry Dash</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://slopegame.online', 'https://geometrydashonline.com')">
+    <img src="https://img.icons8.com/color/96/steep.png" alt="Slope">
+    <span>Slope</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://krunker.io', 'https://alt.krunker.io')">
+    <img src="https://img.icons8.com/color/96/shooting.png" alt="Krunker">
+    <span>Krunker</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://cookieclickerunblocked.github.io', 'https://cookieclicker.io')">
+    <img src="https://img.icons8.com/color/96/cookie.png" alt="Cookie Clicker">
+    <span>Cookie Clicker</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://run3unblocked.github.io', 'https://run3.io')">
+    <img src="https://img.icons8.com/color/96/runner.png" alt="Run 3">
+    <span>Run 3</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://fnfunblocked.github.io', 'https://fnf.io')">
+    <img src="https://img.icons8.com/color/96/microphone.png" alt="Friday Night Funkin'">
+    <span>FNF</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://amongusunblocked.github.io', 'https://amongus.io')">
+    <img src="https://img.icons8.com/color/96/among-us.png" alt="Among Us">
+    <span>Among Us</span>
+  </div>
+  <div class="thumb" onclick="loadGame('https://gunspinunblocked.github.io', 'https://gunspin.io')">
+    <img src="https://img.icons8.com/color/96/revolver.png" alt="GunSpin">
+    <span>GunSpin</span>
+  </div>
 </div>
 
 <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
@@ -65,107 +184,64 @@
 </div>
 
 <script>
-  let currentUrl = '', altUrl = '';
-  let gameFrameOn = false;
+  let currentUrl = '';
+  let altUrl = '';
 
-  function loadGame(url, fallback) {
+  function loadGame(url, backupUrl) {
     currentUrl = url;
-    altUrl = fallback;
-    const iframe = document.getElementById("gameFrame");
-    const btn = document.getElementById("switchUrlBtn");
-    const status = document.getElementById("statusMessage");
-
-    btn.style.display = "none";
-    iframe.src = url;
-    iframe.style.display = "block";
-    status.textContent = "Loading game...";
-    gameFrameOn = true;
-    updateStatusMessage();
-
-    // Check if game fails to load
-    setTimeout(() => {
-      try {
-        const doc = iframe.contentDocument || iframe.contentWindow.document;
-        if (!doc || doc.body.innerHTML.trim() === "") {
-          status.textContent = "Primary URL failed. Switching...";
-          iframe.src = fallback;
-          btn.style.display = "inline-block";
-        }
-      } catch (e) {
-        status.textContent = "Blocked or failed. Manual option enabled.";
-        btn.style.display = "inline-block";
-      }
-    }, 3000);
+    altUrl = backupUrl;
+    document.getElementById('gameFrame').src = url;
+    document.getElementById('statusMessage').innerText = "Game Loaded";
   }
 
   function switchToAltUrl() {
-    const iframe = document.getElementById("gameFrame");
-    const btn = document.getElementById("switchUrlBtn");
-    iframe.src = altUrl;
-    btn.style.display = "none";
-    document.getElementById("statusMessage").textContent = "Loading alternative game...";
+    if (altUrl) {
+      document.getElementById('gameFrame').src = altUrl;
+      document.getElementById('statusMessage').innerText = "Switched to alternative game URL";
+    }
+  }
+
+  function cloak(title, faviconUrl) {
+    document.title = title;
+    document.getElementById("page-title").textContent = title;
+    document.getElementById("favicon").href = faviconUrl;
   }
 
   function panic() {
-    const iframe = document.getElementById("gameFrame");
-    iframe.src = "";
-    iframe.style.display = "none";
-    document.title = "Google Docs";
-    updateFavicon("https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico");
-    gameFrameOn = false;
-    updateStatusMessage();
+    cloak("Google Docs", "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico");
+    document.getElementById("gameFrame").src = "https://docs.google.com";
+    document.getElementById("statusMessage").innerText = "Redirected to Docs";
   }
 
   function toggleFullScreen() {
-    const elem = document.documentElement;
     if (!document.fullscreenElement) {
-      elem.requestFullscreen().catch(err => alert(`Error: ${err.message}`));
+      document.documentElement.requestFullscreen();
     } else {
       document.exitFullscreen();
     }
   }
 
-  function cloak(title, faviconURL) {
-    document.title = title;
-    updateFavicon(faviconURL);
-  }
-
-  function updateFavicon(url) {
-    const existing = document.getElementById("favicon");
-    if (existing) existing.remove();
-    const newIcon = document.createElement("link");
-    newIcon.id = "favicon";
-    newIcon.rel = "icon";
-    newIcon.href = url + "?v=" + new Date().getTime();
-    document.head.appendChild(newIcon);
-  }
-
-  function updateStatusMessage() {
-    document.getElementById("statusMessage").textContent = gameFrameOn ? "Game Frame is ON" : "Game Frame is OFF";
-  }
-
-  (function matrixRain() {
-    const canvas = document.getElementById("matrix-canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()".split("");
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array.from({ length: columns }, () => 1);
-    function draw() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#0F0";
-      ctx.font = fontSize + "px monospace";
-      drops.forEach((y, i) => {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, y * fontSize);
-        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
-      });
+  // Matrix Background
+  const canvas = document.getElementById("matrix-canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  let columns = canvas.width / 20;
+  let drops = [];
+  for (let x = 0; x < columns; x++) drops[x] = 1;
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#0f0";
+    ctx.font = "16px monospace";
+    for (let i = 0; i < drops.length; i++) {
+      let text = String.fromCharCode(0x30A0 + Math.random() * 96);
+      ctx.fillText(text, i * 20, drops[i] * 20);
+      if (drops[i] * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
     }
-    setInterval(draw, 33);
-  })();
+  }
+  setInterval(drawMatrix, 35);
 </script>
 
 </body>
