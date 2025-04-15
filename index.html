@@ -1,194 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Google Docs</title>
-  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: 'Courier New', monospace;
-      background: #000;
-      overflow-x: hidden;
-    }
-    #matrix-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: black;
-    }
-    #toolbar {
-      background-color: rgba(0, 0, 0, 0.85);
-      border-bottom: 2px solid #00ff00;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #00ff00;
-    }
-    #toolbar div {
-      font-size: 24px;
-    }
-    #toolbar button {
-      padding: 8px 16px;
-      font-size: 16px;
-      background-color: #003300;
-      border: 1px solid #00ff00;
-      color: #00ff00;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-    #toolbar button:hover {
-      background-color: #005500;
-    }
-    #content {
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-      color: #00ff00;
-    }
-    .button-group {
-      margin: 15px auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-    }
-    .button-group button {
-      padding: 10px 15px;
-      background-color: rgba(0,51,0,0.8);
-      border: 1px solid #00ff00;
-      border-radius: 3px;
-      cursor: pointer;
-      color: #00ff00;
-      font-size: 16px;
-    }
-    .button-group button:hover {
-      background-color: rgba(0,77,0,0.9);
-    }
-    .cloak-button {
-      background-color: #006600;
-      border-color: #00ff00;
-    }
-    .cloak-button:hover {
-      background-color: #008800;
-    }
-    #gameFrame {
-      width: 90%;
-      height: 60vh;
-      border: 2px solid #00ff00;
-      margin: 20px auto;
-      display: none;
-      background-color: #000;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblocked Games Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            overflow: hidden;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            float: left;
+            display: block;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        main {
+            padding: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        li a {
+            color: #333;
+            text-decoration: none;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
-  <canvas id="matrix-canvas"></canvas>
+<header>
+    <h1>Welcome to the Unblocked Games Hub</h1>
+    <p>Your go-to source for unblocked games at school or work</p>
+</header>
 
-  <div id="toolbar">
-    <div>Study Platform - Terminal Mode</div>
-    <div>
-      <button onclick="panic()">Panic</button>
-      <button onclick="floodTabs()">Submit</button>
-    </div>
-  </div>
+<nav>
+    <a href="#action">Action</a>
+    <a href="#puzzle">Puzzle</a>
+    <a href="#strategy">Strategy</a>
+    <a href="#sports">Sports</a>
+</nav>
 
-  <div id="content">
-    <h2>Study Tools & Games</h2>
-    <p>Press <strong>Ctrl + G</strong> or double-tap this area to reveal the game frame.</p>
+<main>
+    <section id="action">
+        <h2>Action Games</h2>
+        <ul>
+            <li><a href="https://unblockedgames66ez.com" target="_blank">Unblocked Games 66 EZ</a></li>
+            <li><a href="https://unblockedgames77.com" target="_blank">Unblocked Games 77</a></li>
+            <li><a href="https://unblockedgames24h.com" target="_blank">Unblocked Games 24h</a></li>
+            <li><a href="https://unblockedgamespod.com" target="_blank">Unblocked Games Pod</a></li>
+            <li><a href="https://unblockedgames5000.com" target="_blank">Unblocked Games 5000</a></li>
+        </ul>
+    </section>
 
-    <div class="button-group" id="cloakButtons">
-      <button class="cloak-button" onclick="loadInFrame('https://classroom.google.com', 'Google Docs')">Cloak as Google Docs</button>
-      <button class="cloak-button" onclick="loadInFrame('https://drive.google.com', 'Google Drive')">Cloak as Google Drive</button>
-      <button class="cloak-button" onclick="loadInFrame('https://docs.google.com', 'Google Docs')">Cloak as Classroom</button>
-      <button class="cloak-button" onclick="loadInFrame('https://skyward.iscorp.com', 'Skyward')">Cloak as Skyward</button>
-    </div>
+    <section id="puzzle">
+        <h2>Puzzle Games</h2>
+        <ul>
+            <li><a href="https://poki.com" target="_blank">Poki</a></li>
+            <li><a href="https://coolmathgames.com" target="_blank">Cool Math Games</a></li>
+            <li><a href="https://mathplayground.com" target="_blank">Math Playground</a></li>
+            <li><a href="https://addictinggames.com" target="_blank">Addicting Games</a></li>
+            <li><a href="https://miniclip.com" target="_blank">Miniclip</a></li>
+        </ul>
+    </section>
 
-    <h3>Unblocked Game Sites</h3>
-    <div class="button-group" id="gameButtons">
-      <!-- Place all your 50 game buttons here (already included above) -->
-      <!-- Example -->
-      <button onclick="loadInFrame('https://unblocker.whitespider.gq/', 'WhiteSpider Unblocker')">WhiteSpider Unblocker</button>
-      <!-- Continue pasting the rest of the game buttons here... -->
-    </div>
+    <section id="strategy">
+        <h2>Strategy Games</h2>
+        <ul>
+            <li><a href="https://armorgames.com" target="_blank">Armor Games</a></li>
+            <li><a href="https://kongregate.com" target="_blank">Kongregate</a></li>
+            <li><a href="https://newgrounds.com" target="_blank">Newgrounds</a></li>
+            <li><a href="https://nitrome.com" target="_blank">Nitrome</a></li>
+            <li><a href="https://crazygames.com" target="_blank">Crazy Games</a></li>
+        </ul>
+    </section>
 
-    <iframe id="gameFrame" title="Game Frame"></iframe>
-  </div>
+    <section id="sports">
+        <h2>Sports Games</h2>
+        <ul>
+            <li><a href="https://basketballgames.io" target="_blank">Basketball Games</a></li>
+            <li><a href="https://soccergames.io" target="_blank">Soccer Games</a></li>
+            <li><a href="https://hockeygames.io" target="_blank">Hockey Games</a></li>
+            <li><a href="https://baseballgames.io" target="_blank">Baseball Games</a></li>
+            <li><a href="https://tennisgames.io" target="_blank">Tennis Games</a></li>
+        </ul>
+    </section>
+</main>
 
-  <script>
-    function loadInFrame(url, title) {
-      var frame = document.getElementById("gameFrame");
-      frame.src = url;
-      frame.style.display = "block";
-      document.title = title;
-    }
-
-    function panic() {
-      var frame = document.getElementById("gameFrame");
-      frame.src = "";
-      frame.style.display = "none";
-    }
-
-    function floodTabs() {
-      var url = "https://duckmath.org";
-      for (var i = 0; i < 20; i++) {
-        window.open(url, '_blank');
-      }
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
-        var frame = document.getElementById("gameFrame");
-        frame.style.display = (frame.style.display === "none" || frame.style.display === "") ? "block" : "none";
-      }
-    });
-
-    document.getElementById("content").addEventListener('dblclick', function () {
-      var frame = document.getElementById("gameFrame");
-      frame.style.display = "block";
-    });
-
-    (function() {
-      var canvas = document.getElementById("matrix-canvas");
-      var ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      var matrixChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()".split("");
-      var fontSize = 16;
-      var columns = canvas.width / fontSize;
-      var drops = [];
-      for (var x = 0; x < columns; x++) {
-        drops[x] = Math.floor(Math.random() * canvas.height / fontSize);
-      }
-      function draw() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#00ff00";
-        ctx.font = fontSize + "px Courier New";
-        for (var i = 0; i < drops.length; i++) {
-          var text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
-          drops[i]++;
-        }
-      }
-      setInterval(draw, 33);
-    })();
-  </script>
+<footer>
+    <p>&copy; 2025 Unblocked Games Hub | All rights reserved</p>
+</footer>
 
 </body>
 </html>
