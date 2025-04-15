@@ -69,6 +69,12 @@
       border: 2px solid #00ff00;
       background: #000;
     }
+    #statusMessage {
+      color: #00ff00;
+      font-size: 16px;
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -90,27 +96,43 @@
 </div>
 
 <div class="button-group">
-  <!-- Replace or add up to 100 game links here -->
+  <button onclick="loadGame('https://retrobowlunblocked.github.io')">Retro Bowl</button>
   <button onclick="loadGame('https://ubg44.github.io')">UBG44</button>
   <button onclick="loadGame('https://ubg98.github.io')">UBG98</button>
   <button onclick="loadGame('https://1v1.lol')">1v1.LOL</button>
   <button onclick="loadGame('https://classroom6x.org')">Classroom 6x</button>
   <button onclick="loadGame('https://games.poki.com')">Poki</button>
   <button onclick="loadGame('https://geometrydashonline.com')">Geometry Dash</button>
-  <button onclick="loadGame('https://retrobowlunblocked.github.io')">Retro Bowl</button>
   <button onclick="loadGame('https://slopegame.online')">Slope</button>
   <button onclick="loadGame('https://krunker.io')">Krunker</button>
   <button onclick="loadGame('https://diep.io')">Diep.io</button>
-  <!-- Add more as needed -->
+  <!-- Added extra games -->
+  <button onclick="loadGame('https://tetris.com/play-tetris')">Tetris</button>
+  <button onclick="loadGame('https://classic.minecraft.net')">Minecraft Classic</button>
+  <button onclick="loadGame('https://slopeunblockedgame.com')">Slope Run Game</button>
+  <button onclick="loadGame('https://www.pacman.com')">Pac-Man</button>
+  <button onclick="loadGame('https://www.tanktrouble.com')">Tank Trouble</button>
+  <!-- New games -->
+  <button onclick="loadGame('https://flappybird.io')">Flappy Bird</button>
+  <button onclick="loadGame('https://play2048.co')">2048</button>
+  <button onclick="loadGame('https://www.crossyroad.com')">Crossy Road</button>
+  <button onclick="loadGame('https://agar.io')">Agar.io</button>
+  <button onclick="loadGame('https://www.totaljerkface.com')">Happy Wheels</button>
 </div>
 
 <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
 
+<div id="statusMessage">Game Frame is OFF</div>
+
 <script>
+  let gameFrameOn = false; // To track the status of the iframe
+
   function loadGame(url) {
     const iframe = document.getElementById("gameFrame");
     iframe.src = url;
     iframe.style.display = "block";
+    gameFrameOn = true; // Set iframe as active
+    updateStatusMessage(); // Update the status message
   }
 
   function panic() {
@@ -119,6 +141,8 @@
     iframe.style.display = "none";
     document.title = "Google Docs";
     document.getElementById("favicon").href = "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico";
+    gameFrameOn = false; // Set iframe as inactive
+    updateStatusMessage(); // Update the status message
   }
 
   function toggleFullScreen() {
@@ -133,6 +157,16 @@
   function cloak(title, faviconURL) {
     document.title = title;
     document.getElementById("favicon").href = faviconURL;
+  }
+
+  // Function to update the status message
+  function updateStatusMessage() {
+    const statusMessage = document.getElementById("statusMessage");
+    if (gameFrameOn) {
+      statusMessage.textContent = "Game Frame is ON";
+    } else {
+      statusMessage.textContent = "Game Frame is OFF";
+    }
   }
 
   (function matrixRain() {
@@ -159,6 +193,46 @@
 
     setInterval(draw, 33);
   })();
+</script>
+
+<!-- Ad-blocking script -->
+<script>
+  // Function to block ads within the iframe
+  function blockAdsInIframe() {
+    const iframe = document.getElementById('gameFrame');
+    iframe.onload = function() {
+      try {
+        const iframeDocument = iframe.contentWindow.document;
+        
+        // Example of ad elements to hide
+        const adSelectors = [
+          'iframe[src*="ads"]', // Ads in an iframe
+          '.ad', // General ad class
+          '.advertisement', // Specific ad class
+          '.ads', // Another common ad class
+          '.banner', // Banner ads
+          '.popup', // Popup ads
+          '[id*="ad"]', // IDs with 'ad' in them
+          '[class*="ad"]', // Classes with 'ad' in them
+        ];
+
+        // Hide ad elements based on the selectors
+        adSelectors.forEach(selector => {
+          const ads = iframeDocument.querySelectorAll(selector);
+          ads.forEach(ad => {
+            ad.style.display = 'none';
+          });
+        });
+      } catch (error) {
+        console.error("Error blocking ads:", error);
+      }
+    };
+  }
+
+  // Call the function when the page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    blockAdsInIframe();
+  });
 </script>
 
 </body>
