@@ -1,77 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>English Homework - Google Docs</title>
-  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico">
+  <meta charset="UTF-8" />
+  <title>Middle School Homework</title>
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      color: #202124;
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
     }
-    #toolbar {
-      background-color: #f1f3f4;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #dadce0;
-    }
-    #content {
-      padding: 20px;
-      height: 90vh;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
+    #game {
+      width: 90%;
+      height: 600px;
       border: none;
       display: none;
+      margin: 20px auto;
     }
-    #panic {
-      background: #fff;
-      color: #000;
-      border: 1px solid #dadce0;
-      padding: 5px 10px;
-      cursor: pointer;
+    .game-button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
-  <div id="toolbar">
-    <div>English Essay - Period 4</div>
-    <div>
-      <button id="panic" onclick="panic()">Panic</button>
-      <button id="submit" onclick="floodTabs()">Submit</button>
-    </div>
-  </div>
-  <div id="content">
-    <p>Instructions: Write your final essay here. Use proper citations and MLA formatting.</p>
-    <p>Press <strong>Ctrl + G</strong> or tap the hidden zone to play the "study enhancement tool."</p>
-    <iframe id="game" src="https://classroom6x.site/"></iframe>
-  </div>
+  <h1>Middle School Homework</h1>
+  <button class="game-button" onclick="loadGame('https://ubg100.bitbucket.io/games.html')">UBG100</button>
+  <button class="game-button" onclick="loadGame('https://sz-games.github.io/')">SZ Games</button>
+  <button class="game-button" onclick="loadGame('https://emulatoros.github.io/')">EmulatorOS</button>
+  <button class="game-button" onclick="loadGame('https://superteamxx.github.io/Subway-Surfers/')">Subway Surfers</button>
+  <button class="game-button" onclick="loadGame('https://2048game.com/')">2048</button>
+  <button class="game-button" onclick="panic()">Panic</button>
+
+  <iframe id="game"></iframe>
 
   <script>
-    function floodTabs() {
-      const url = "https://classroom6x.site/";
-      for (let i = 0; i < 20; i++) {
-        window.open(url, '_blank');
-      }
+    function loadGame(url) {
+      const gameFrame = document.getElementById("game");
+      gameFrame.src = url;
+      gameFrame.style.display = "block";
     }
 
     function panic() {
-      document.getElementById("game").style.display = "none";
+      const gameFrame = document.getElementById("game");
+      gameFrame.style.display = "none";
+      gameFrame.src = "";
     }
 
-    // Show game with Ctrl + G (or Command + G on Mac)
-    document.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
-        document.getElementById("game").style.display = "block";
+    // Optional: Add keyboard shortcut for panic (e.g., Ctrl + G)
+    document.addEventListener("keydown", function (event) {
+      if (event.ctrlKey && event.key === "g") {
+        panic();
       }
-    });
-
-    // Also allow mobile tap to activate
-    document.getElementById("content").addEventListener('dblclick', function () {
-      document.getElementById("game").style.display = "block";
     });
   </script>
 </body>
