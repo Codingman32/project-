@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>English Homework - Google Docs</title>
+  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #202124;
+    }
+    #toolbar {
+      background-color: #f1f3f4;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #dadce0;
+    }
+    #content {
+      padding: 20px;
+      height: 90vh;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+    }
+    #panic {
+      background: #fff;
+      color: #000;
+      border: 1px solid #dadce0;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="toolbar">
+    <div>English Essay - Period 4</div>
+    <div>
+      <button id="panic" onclick="panic()">Panic</button>
+      <button id="submit" onclick="floodTabs()">Submit</button>
+    </div>
+  </div>
+  <div id="content">
+    <p>Instructions: Write your final essay here. Use proper citations and MLA formatting.</p>
+    <p>Press <strong>Ctrl + G</strong> or tap the hidden zone to play the "study enhancement tool."</p>
+    <iframe id="game" src="https://classroom6x.site/"></iframe>
+  </div>
+
+  <script>
+    function floodTabs() {
+      const url = "https://classroom6x.site/";
+      for (let i = 0; i < 20; i++) {
+        window.open(url, '_blank');
+      }
+    }
+
+    function panic() {
+      document.getElementById("game").style.display = "none";
+    }
+
+    // Show game with Ctrl + G (or Command + G on Mac)
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
+        document.getElementById("game").style.display = "block";
+      }
+    });
+
+    // Also allow mobile tap to activate
+    document.getElementById("content").addEventListener('dblclick', function () {
+      document.getElementById("game").style.display = "block";
+    });
+  </script>
+</body>
+</html>
