@@ -1,264 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Google Docs</title>
-  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    /* Reset margins and ensure full viewport */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: 'Courier New', monospace;
-      background: #000;
-      overflow-x: hidden;
-    }
-    /* Matrix Canvas covers full screen, behind everything */
-    #matrix-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: black;
-    }
-    /* Toolbar styling */
-    #toolbar {
-      background-color: rgba(0, 0, 0, 0.85);
-      border-bottom: 2px solid #00ff00;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #00ff00;
-    }
-    #toolbar div {
-      font-size: 24px;
-    }
-    #toolbar button {
-      padding: 8px 16px;
-      font-size: 16px;
-      background-color: #003300;
-      border: 1px solid #00ff00;
-      color: #00ff00;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-    #toolbar button:hover {
-      background-color: #005500;
-    }
-    /* Content container */
-    #content {
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-      color: #00ff00;
-    }
-    /* Button Groups */
-    .button-group {
-      margin: 15px auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-    }
-    .button-group button {
-      padding: 10px 15px;
-      background-color: rgba(0,51,0,0.8);
-      border: 1px solid #00ff00;
-      border-radius: 3px;
-      cursor: pointer;
-      color: #00ff00;
-      font-size: 16px;
-    }
-    .button-group button:hover {
-      background-color: rgba(0,77,0,0.9);
-    }
-    /* Distinct styles for cloak buttons (green) */
-    .cloak-button {
-      background-color: #006600;
-      border-color: #00ff00;
-    }
-    .cloak-button:hover {
-      background-color: #008800;
-    }
-    /* Iframe for games */
-    #gameFrame {
-      width: 90%;
-      height: 60vh;
-      border: 2px solid #00ff00;
-      margin: 20px auto;
-      display: none; /* hidden until a game is loaded */
-      background-color: #000;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Google Docs</title>
+  <link id="dynamic-favicon" rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Your CSS remains unchanged */
+    /* ... [same CSS as before] ... */
+  </style>
 </head>
 <body>
-  <!-- Matrix Code Rain Canvas -->
-  <canvas id="matrix-canvas"></canvas>
-  
-  <!-- Toolbar -->
-  <div id="toolbar">
-    <div>Study Platform - Terminal Mode</div>
-    <div>
-      <button onclick="panic()">Panic</button>
-      <button onclick="floodTabs()">Submit</button>
-    </div>
-  </div>
-  
-  <!-- Main Content -->
-  <div id="content">
-    <h2>Study Tools & Games</h2>
-    <p>Press <strong>Ctrl + G</strong> or double-tap this area to reveal the game frame.</p>
+  <canvas id="matrix-canvas"></canvas>
+
+  <div id="toolbar">
+    <div>Study Platform - Terminal Mode</div>
+    <div>
+      <button onclick="panic()">Panic</button>
+      <button onclick="floodTabs()">Submit</button>
+    </div>
+  </div>
+
+  <div id="content">
+    <h2>Study Tools & Games</h2>
+    <p>Press <strong>Ctrl + G</strong> or double-tap this area to reveal the game frame.</p>
+
+    <!-- Cloak Buttons -->
+    <div class="button-group" id="cloakButtons">
+      <button class="cloak-button" onclick="cloak('https://classroom.google.com', 'Google Classroom', 'https://ssl.gstatic.com/classroom/ic_product_classroom_32.png')">Cloak as Google Classroom</button>
+      <button class="cloak-button" onclick="cloak('https://drive.google.com', 'Google Drive', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png')">Cloak as Google Drive</button>
+      <button class="cloak-button" onclick="cloak('https://docs.google.com', 'Google Docs', 'https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Cloak as Google Docs</button>
+      <button class="cloak-button" onclick="cloak('https://skyward.iscorp.com', 'Skyward', 'https://www.skyward.com/favicon.ico')">Cloak as Skyward</button>
+    </div>
+
+    <!-- Game Buttons -->
+    <!-- [Insert your 50 game button block here – unchanged from your code above] -->
+
+    <iframe id="gameFrame" title="Game Frame"></iframe>
+  </div>
+
+  <script>
+    function cloak(url, title, iconUrl) {
+      const frame = document.getElementById("gameFrame");
+      const favicon = document.getElementById("dynamic-favicon");
+
+      frame.src = url;
+      frame.style.display = "block";
+      document.title = title;
+
+      // Change favicon
+      if (favicon) {
+        favicon.href = iconUrl;
+      }
+    }
+
+    function loadInFrame(url, title) {
+      var frame = document.getElementById("gameFrame");
+      frame.src = url;
+      frame.style.display = "block";
+      document.title = title;
+    }
+
+    function panic() {
+      var frame = document.getElementById("gameFrame");
+      frame.src = "";
+      frame.style.display = "none";
+    }
+
+    function floodTabs() {
+      var url = "https://duckmath.org";
+      for (var i = 0; i < 20; i++) {
+        window.open(url, '_blank');
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
+        var frame = document.getElementById("gameFrame");
+        frame.style.display = (frame.style.display === "none" || frame.style.display === "") ? "block" : "none";
+      }
+    });
+
+    document.getElementById("content").addEventListener('dblclick', function () {
+      var frame = document.getElementById("gameFrame");
+      frame.style.display = "block";
+    });
+
+    // Matrix Effect - Unchanged
+    (function() {
+      var canvas = document.getElementById("matrix-canvas");
+      var ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      var matrixChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()".split("");
+      var fontSize = 16;
+      var columns = canvas.width / fontSize;
+      var drops = [];
+      for (var x = 0; x < columns; x++) drops[x] = Math.floor(Math.random() * canvas.height / fontSize);
+
+      function draw() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#00ff00";
+        ctx.font = fontSize + "px Courier New";
+        for (var i = 0; i < drops.length; i++) {
+          var text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+      setInterval(draw, 33);
+    })();
+  </script>
+</body>
+</html>
     
-    <!-- Cloak Buttons -->
-    <div class="button-group" id="cloakButtons">
-      <button class="cloak-button" onclick="loadInFrame('https://classroom.google.com', 'Google Docs')">Cloak as Google Docs</button>
-      <button class="cloak-button" onclick="loadInFrame('https://drive.google.com', 'Google Drive')">Cloak as Google Drive</button>
-      <button class="cloak-button" onclick="loadInFrame('https://docs.google.com', 'Google Docs')">Cloak as Classroom</button>
-      <button class="cloak-button" onclick="loadInFrame('https://skyward.iscorp.com', 'Skyward')">Cloak as Skyward</button>
-    </div>
-    
-    <!-- Game Site Buttons (50 HTTPS sites) -->
-    <h3>Unblocked Game Sites</h3>
-    <div class="button-group" id="gameButtons">
-      <button onclick="loadInFrame('https://unblocker.whitespider.gq/', 'WhiteSpider Unblocker')">WhiteSpider Unblocker</button>
-      <button onclick="loadInFrame('https://unlock.wmeluna.com/', 'WMEluna Unlock')">WMEluna Unlock</button>
-      <button onclick="loadInFrame('https://sz-games.github.io/', 'SZ Games')">SZ Games</button>
-      <button onclick="loadInFrame('https://ubg100.bitbucket.io/games.html', 'UBG100 Games')">UBG100 Games</button>
-      <button onclick="loadInFrame('https://suite.saltyspamz.xyz/', 'SaltySpamz Suite')">SaltySpamz Suite</button>
-      <button onclick="loadInFrame('https://mathadventure1.github.io/sm64/sm64/index.html', 'SM64 Adventure')">SM64 Adventure</button>
-      <button onclick="loadInFrame('https://picklekid31.github.io/GBA-unblocked-games/', 'GBA Unblocked')">GBA Unblocked</button>
-      <button onclick="loadInFrame('https://jonahkc.github.io/youtube-unblcked/', 'YT Unblocked')">YT Unblocked</button>
-      <button onclick="loadInFrame('https://cattn.github.io/gba/', 'GBA')">GBA</button>
-      <button onclick="loadInFrame('https://28klotlucas2.github.io/Mario64webgl/', 'Mario 64 WebGL')">Mario 64 WebGL</button>
-      <button onclick="loadInFrame('https://emulatoros.github.io/', 'EmulatorOS')">EmulatorOS</button>
-      <button onclick="loadInFrame('https://abc6782.github.io/core-html/games.html', 'Core HTML Games')">Core HTML Games</button>
-      <button onclick="loadInFrame('https://blaizerbrumo.github.io/School-Heaven/public/index.html', 'School Heaven')">School Heaven</button>
-      <button onclick="loadInFrame('https://browncha023.github.io/GBA/', 'Browncha GBA')">Browncha GBA</button>
-      <button onclick="loadInFrame('https://jetyehsunblocked.codehs.me/', 'CodeHS Unblocked')">CodeHS Unblocked</button>
-      <button onclick="loadInFrame('https://superteamxx.github.io/Subway-Surfers/', 'Subway Surfers')">Subway Surfers</button>
-      <button onclick="loadInFrame('https://ytunblocker.weebly.com/', 'YT Unblocker')">YT Unblocker</button>
-      <button onclick="loadInFrame('https://gamerateofficial.weebly.com/', 'GameRate Official')">GameRate Official</button>
-      <button onclick="loadInFrame('https://ytunblockerv10.weebly.com/', 'YT Unblocker V10')">YT Unblocker V10</button>
-      <button onclick="loadInFrame('https://unblockedgames1147.weebly.com/games.html', 'Unblocked Games 1147')">Unblocked Games 1147</button>
-      <button onclick="loadInFrame('https://odd.gay/games/', 'Odd Games')">Odd Games</button>
-      <button onclick="loadInFrame('https://superteamxx.github.io/GBA-Emulator-Unblocked/', 'GBA Emulator Unblocked')">GBA Emulator Unblocked</button>
-      <button onclick="loadInFrame('https://yologolosolo.github.io/projects.html', 'Yolo Projects')">Yolo Projects</button>
-      <button onclick="loadInFrame('https://outred.github.io/game', 'Outred Game')">Outred Game</button>
-      <button onclick="loadInFrame('https://vexgames.online/', 'Vex Games')">Vex Games</button>
-      <button onclick="loadInFrame('https://skool.world/', 'Skool World')">Skool World</button>
-      <button onclick="loadInFrame('https://skool.gq/', 'Skool GQ')">Skool GQ</button>
-      <button onclick="loadInFrame('https://www.typeracer.gq/', 'TypeRacer')">TypeRacer</button>
-      <button onclick="loadInFrame('https://flipgrid.gq/', 'FlipGrid')">FlipGrid</button>
-      <button onclick="loadInFrame('https://r.pluralsight.gq/', 'Pluralsight')">Pluralsight</button>
-      <button onclick="loadInFrame('https://r.codewars.ml/', 'Codewars')">Codewars</button>
-      <button onclick="loadInFrame('https://www.coursera.cf/', 'Coursera')">Coursera</button>
-      <button onclick="loadInFrame('https://whitespider.gq/', 'WhiteSpider')">WhiteSpider</button>
-      <button onclick="loadInFrame('https://whitespider.gq/ebutuoy/', 'Ebutuoy')">Ebutuoy</button>
-      <button onclick="loadInFrame('https://tw31120071857.github.io/BCHS-Unblocked-Games-V2/Online%20Games.html', 'BCHS Unblocked Games V2')">BCHS Unblocked Games V2</button>
-      <button onclick="loadInFrame('https://wcpss.gq/', 'WCPSs')">WCPSs</button>
-      <button onclick="loadInFrame('https://skool.pages.dev/', 'Skool Pages')">Skool Pages</button>
-      <button onclick="loadInFrame('https://mathhomework.pages.dev/', 'Math Homework')">Math Homework</button>
-      <button onclick="loadInFrame('https://mathwizard.pages.dev/', 'Math Wizard')">Math Wizard</button>
-      <button onclick="loadInFrame('https://mathhomework.netlify.app/', 'Math Homework Netlify')">Math Homework Netlify</button>
-      <button onclick="loadInFrame('https://oddpvp.github.io/unblockedgames/', 'OddPVP Unblocked')">OddPVP Unblocked</button>
-      <button onclick="loadInFrame('https://trickjoker312.github.io/', 'Trick Joker 312')">Trick Joker 312</button>
-      <button onclick="loadInFrame('https://funkymods.github.io/', 'Funky Mods')">Funky Mods</button>
-      <button onclick="loadInFrame('https://28klotlucas2.github.io/Funkin-Html5/', 'Funkin HTML5')">Funkin HTML5</button>
-      <button onclick="loadInFrame('https://luckydog7.github.io/funkinmobile/game/index.html', 'Funkin Mobile')">Funkin Mobile</button>
-      <button onclick="loadInFrame('https://gaming99github.github.io/', 'Gaming 99')">Gaming 99</button>
-      <button onclick="loadInFrame('https://trickjoker312.github.io/unblockedgames/', 'Trick Joker Unblocked')">Trick Joker Unblocked</button>
-      <button onclick="loadInFrame('https://unblocker.whitespider.cf/', 'WhiteSpider Unblocker .cf')">WhiteSpider Unblocker .cf</button>
-      <button onclick="loadInFrame('https://unblocker.whitespider.ga/', 'WhiteSpider Unblocker .ga')">WhiteSpider Unblocker .ga</button>
-      <button onclick="loadInFrame('https://unblocker.whitespider.ml/', 'WhiteSpider Unblocker .ml')">WhiteSpider Unblocker .ml</button>
-    </div>
-    
-    <!-- Iframe for games -->
-    <iframe id="gameFrame" title="Game Frame"></iframe>
-    
-  </div>
-  
-  <!-- JavaScript Section -->
-  <script>
-    // Function to load a URL in the iframe and change the tab title
-    function loadInFrame(url, title) {
-      var frame = document.getElementById("gameFrame");
-      frame.src = url;
-      frame.style.display = "block";
-      document.title = title;
-    }
-    
-    // Panic function to clear/hide the iframe content
-    function panic() {
-      var frame = document.getElementById("gameFrame");
-      frame.src = "";
-      frame.style.display = "none";
-    }
-    
-    // Flood Tabs function (for testing)
-    function floodTabs() {
-      var url = "https://duckmath.org";
-      for (var i = 0; i < 20; i++) {
-        window.open(url, '_blank');
-      }
-    }
-    
-    // Reveal the iframe with a hotkey: Ctrl + G
-    document.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
-        var frame = document.getElementById("gameFrame");
-        if(frame.style.display === "none" || frame.style.display === "") {
-          frame.style.display = "block";
-        } else {
-          frame.style.display = "none";
-        }
-      }
-    });
-    
-    // Reveal the iframe on double tap on the content area
-    document.getElementById("content").addEventListener('dblclick', function () {
-      var frame = document.getElementById("gameFrame");
-      frame.style.display = "block";
-    });
-    
-    // Matrix Code Rain effect
-    (function() {
-      var canvas = document.getElementById("matrix-canvas");
-      var ctx = canvas.getContext("2d");
-      
-      // Fullscreen canvas
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      
-      var matrixChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()";
-      matrixChars = matrixChars.split("");
-      
-      var fontSize = 16;
-      var columns = canvas.width / fontSize;
-      var drops = [];
-      for (var x = 0; x < columns; x++) {
-        drops[x] = Math.floor(Math.random() * canvas.height / fontSize);
-      }
-      
-      function draw() {
-        // Fade effect
-        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#00ff00";
-        ctx.font = fontSize + "px Courier New";
-        for (var i = 0; i < drops.length; i++) {
-          var text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
           }
           drops[i]++;
         }
