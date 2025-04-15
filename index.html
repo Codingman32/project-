@@ -75,6 +75,15 @@
       text-align: center;
       margin-top: 10px;
     }
+    #iframe-instructions {
+      color: #00ff00;
+      font-size: 18px;
+      text-align: center;
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #00ff00;
+      background-color: rgba(0, 51, 0, 0.8);
+    }
   </style>
 </head>
 <body>
@@ -98,54 +107,74 @@
 
 <div class="button-group">
   <!-- Game Buttons Group 1 -->
-  <button onclick="loadGame('https://retrobowlunblocked.github.io')">Retro Bowl</button>
-  <button onclick="loadGame('https://ubg44.github.io')">UBG44</button>
-  <button onclick="loadGame('https://ubg98.github.io')">UBG98</button>
-  <button onclick="loadGame('https://1v1.lol')">1v1.LOL</button>
-  <!-- Substitute for blocked Classroom6x -->
-  <button onclick="loadGame('https://unblockedgames66ez.github.io')">UBG66 EZ</button>
-  <!-- Substitute for blocked Poki -->
-  <button onclick="loadGame('https://unblockedgamespod.com')">Unblocked Games Pod</button>
-  <button onclick="loadGame('https://geometrydashonline.com')">Geometry Dash</button>
-  <button onclick="loadGame('https://slopegame.online')">Slope</button>
-  <button onclick="loadGame('https://krunker.io')">Krunker</button>
-  <button onclick="loadGame('https://diep.io')">Diep.io</button>
+  <button onclick="loadGame('https://retrobowlunblocked.github.io', 'https://alternative-url.com')">Retro Bowl</button>
+  <button onclick="loadGame('https://ubg44.github.io', 'https://alternative-url.com')">UBG44</button>
+  <button onclick="loadGame('https://ubg98.github.io', 'https://alternative-url.com')">UBG98</button>
+  <button onclick="loadGame('https://1v1.lol', 'https://alternative-url.com')">1v1.LOL</button>
+  <button onclick="loadGame('https://unblockedgames66ez.github.io', 'https://alternative-url.com')">UBG66 EZ</button>
+  <button onclick="loadGame('https://unblockedgamespod.com', 'https://alternative-url.com')">Unblocked Games Pod</button>
+  <button onclick="loadGame('https://geometrydashonline.com', 'https://alternative-url.com')">Geometry Dash</button>
+  <button onclick="loadGame('https://slopegame.online', 'https://alternative-url.com')">Slope</button>
+  <button onclick="loadGame('https://krunker.io', 'https://alternative-url.com')">Krunker</button>
+  <button onclick="loadGame('https://diep.io', 'https://alternative-url.com')">Diep.io</button>
 </div>
 
 <div class="button-group">
   <!-- Game Buttons Group 2 (Extra Games) -->
-  <button onclick="loadGame('https://tetris.com/play-tetris')">Tetris</button>
-  <button onclick="loadGame('https://classic.minecraft.net')">Minecraft Classic</button>
-  <button onclick="loadGame('https://slopeunblockedgame.com')">Slope Run Game</button>
-  <button onclick="loadGame('https://www.pacman.com')">Pac-Man</button>
-  <button onclick="loadGame('https://www.tanktrouble.com')">Tank Trouble</button>
-  <button onclick="loadGame('https://flappybird.io')">Flappy Bird</button>
-  <button onclick="loadGame('https://play2048.co')">2048</button>
-  <button onclick="loadGame('https://www.crossyroad.com')">Crossy Road</button>
-  <button onclick="loadGame('https://agar.io')">Agar.io</button>
-  <button onclick="loadGame('https://www.totaljerkface.com')">Happy Wheels</button>
-  <button onclick="loadGame('https://www.stickmanhook.com')">Stickman Hook</button>
-  <!-- Five new game buttons -->
-  <button onclick="loadGame('https://www.silvergames.com/en/air-control')">Air Control</button>
-  <button onclick="loadGame('https://www.silvergames.com/en/beach-soccer')">Beach Soccer</button>
-  <button onclick="loadGame('https://www.silvergames.com/en/soccer-stars')">Soccer Stars</button>
-  <button onclick="loadGame('https://www.silvergames.com/en/basketball-shoot')">Basketball Shoot</button>
-  <button onclick="loadGame('https://www.silvergames.com/en/super-hexagon')">Super Hexagon</button>
+  <button onclick="loadGame('https://tetris.com/play-tetris', 'https://alternative-url.com')">Tetris</button>
+  <button onclick="loadGame('https://classic.minecraft.net', 'https://alternative-url.com')">Minecraft Classic</button>
+  <button onclick="loadGame('https://slopeunblockedgame.com', 'https://alternative-url.com')">Slope Run Game</button>
+  <button onclick="loadGame('https://www.pacman.com', 'https://alternative-url.com')">Pac-Man</button>
+  <button onclick="loadGame('https://www.tanktrouble.com', 'https://alternative-url.com')">Tank Trouble</button>
+  <button onclick="loadGame('https://flappybird.io', 'https://alternative-url.com')">Flappy Bird</button>
+  <button onclick="loadGame('https://play2048.co', 'https://alternative-url.com')">2048</button>
+  <button onclick="loadGame('https://www.crossyroad.com', 'https://alternative-url.com')">Crossy Road</button>
+  <button onclick="loadGame('https://agar.io', 'https://alternative-url.com')">Agar.io</button>
+  <button onclick="loadGame('https://www.totaljerkface.com', 'https://alternative-url.com')">Happy Wheels</button>
+  <button onclick="loadGame('https://www.stickmanhook.com', 'https://alternative-url.com')">Stickman Hook</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/air-control', 'https://alternative-url.com')">Air Control</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/beach-soccer', 'https://alternative-url.com')">Beach Soccer</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/soccer-stars', 'https://alternative-url.com')">Soccer Stars</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/basketball-shoot', 'https://alternative-url.com')">Basketball Shoot</button>
+  <button onclick="loadGame('https://www.silvergames.com/en/super-hexagon', 'https://alternative-url.com')">Super Hexagon</button>
 </div>
 
 <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
 
 <div id="statusMessage">Game Frame is OFF</div>
 
+<div id="iframe-instructions">
+  <p><strong>How the Game Frame Works:</strong></p>
+  <p>The game iframe below is used to play various unblocked games directly on this page. If the game is blocked, you can click on the "Try Alternative Game" button that appears to load the game from a different URL.</p>
+</div>
+
 <script>
   let gameFrameOn = false; // To track the status of the iframe
 
-  function loadGame(url) {
+  function loadGame(url, altUrl) {
     const iframe = document.getElementById("gameFrame");
+    const statusMessage = document.getElementById("statusMessage");
+    const iframeInstructions = document.getElementById("iframe-instructions");
+
     iframe.src = url;
     iframe.style.display = "block";
-    gameFrameOn = true; // Set iframe as active
-    updateStatusMessage(); // Update the status message
+    gameFrameOn = true;
+    updateStatusMessage();
+
+    iframe.onload = function() {
+      statusMessage.textContent = "Game Frame is ON";
+    };
+
+    iframe.onerror = function() {
+      statusMessage.textContent = "Game is blocked. Click below to try an alternative.";
+      const retryButton = document.createElement("button");
+      retryButton.textContent = "Try Alternative Game";
+      retryButton.onclick = function() {
+        iframe.src = altUrl;
+        statusMessage.textContent = "Loading alternative game...";
+      };
+      document.body.appendChild(retryButton);
+    };
   }
 
   function panic() {
@@ -172,7 +201,6 @@
     document.getElementById("favicon").href = faviconURL;
   }
 
-  // Function to update the status message indicating if the game frame is on or off
   function updateStatusMessage() {
     const statusMessage = document.getElementById("statusMessage");
     statusMessage.textContent = gameFrameOn ? "Game Frame is ON" : "Game Frame is OFF";
@@ -205,7 +233,6 @@
 
 <!-- Ad-blocking script -->
 <script>
-  // Function to block ads within the iframe by continuously checking every second
   function blockAdsInIframe() {
     const iframe = document.getElementById('gameFrame');
     iframe.onload = function() {
@@ -234,15 +261,6 @@
       }
     };
   }
-  document.addEventListener('DOMContentLoaded', function() {
-    blockAdsInIframe();
-  });
-</script>
-
-</body>
-</html>
-
-  // Call the function when the page loads
   document.addEventListener('DOMContentLoaded', function() {
     blockAdsInIframe();
   });
