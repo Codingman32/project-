@@ -46,10 +46,9 @@
       gap: 20px;
     }
     #game-frame {
-      display: none;
       border: none;
       width: 100%;
-      height: 400px;
+      height: 500px;
       background: #fff;
     }
     .game-buttons, .tab-cloaker-buttons {
@@ -100,86 +99,64 @@
 
     <!-- Tab Cloaker Buttons -->
     <div class="tab-cloaker-buttons">
-      <button class="tab-cloaker-button" onclick="openTab('https://classroom.google.com')">Google Classroom</button>
-      <button class="tab-cloaker-button" onclick="openTab('https://drive.google.com')">Google Drive</button>
-      <button class="tab-cloaker-button" onclick="openTab('https://docs.google.com')">Google Docs</button>
-      <button class="tab-cloaker-button" onclick="openTab('https://skyward.iscorp.com')">Skyward</button>
-      <button class="tab-cloaker-button" onclick="openTab('https://mail.google.com')">Gmail</button>
-      <button class="tab-cloaker-button" onclick="openTab('https://www.edmodo.com')">Edmodo</button>
+      <button class="tab-cloaker-button" onclick="loadInFrame('https://classroom.google.com', 'Google Classroom')">Google Classroom</button>
+      <button class="tab-cloaker-button" onclick="loadInFrame('https://drive.google.com', 'Google Drive')">Google Drive</button>
+      <button class="tab-cloaker-button" onclick="loadInFrame('https://docs.google.com', 'Google Docs')">Google Docs</button>
+      <button class="tab-cloaker-button" onclick="loadInFrame('https://skyward.iscorp.com', 'Skyward')">Skyward</button>
+      <button class="tab-cloaker-button" onclick="loadInFrame('https://mail.google.com', 'Gmail')">Gmail</button>
+      <button class="tab-cloaker-button" onclick="loadInFrame('https://www.edmodo.com', 'Edmodo')">Edmodo</button>
     </div>
 
     <h3>Unblocked Game Sites</h3>
 
     <!-- Game Site Buttons -->
     <div class="game-buttons">
-      <button class="game-button" onclick="window.open('https://duckmath.org', '_blank')">DuckMath</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames.io', '_blank')">Unblocked Games at School</button>
-      <button class="game-button" onclick="window.open('https://sites.google.com/view/hackedgame/home', '_blank')">Hacked Unblocked Games</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames24h.com', '_blank')">Unblocked Games 24h</button>
-      <button class="game-button" onclick="window.open('https://unblockedgamespod.com', '_blank')">Unblocked Games Pod</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames77.com', '_blank')">Unblocked Games 77</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames66.github.io', '_blank')">Unblocked Games 66</button>
-      <button class="game-button" onclick="window.open('https://slopeunblocked.com', '_blank')">Slope Unblocked</button>
-      <button class="game-button" onclick="window.open('https://classicflashgames.com', '_blank')">Classic Flash Games</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames333.com', '_blank')">Unblocked Games 333</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames999.com', '_blank')">Unblocked Games 999</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames67.github.io', '_blank')">Unblocked Games 67</button>
-      <button class="game-button" onclick="window.open('https://unblockedgamez.com', '_blank')">Unblocked Gamez</button>
-      <button class="game-button" onclick="window.open('https://freegames66.com', '_blank')">Free Games 66</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames4000.com', '_blank')">Unblocked Games 4000</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames66.github.io', '_blank')">Unblocked Games 66 (Another Version)</button>
-      <button class="game-button" onclick="window.open('https://pokifun.com', '_blank')">Poki Fun</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames333.github.io', '_blank')">Unblocked Games 333 (Another Version)</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames360.com', '_blank')">Unblocked Games 360</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames.zone', '_blank')">Unblocked Games Zone</button>
-      <button class="game-button" onclick="window.open('https://coolmathgames.com', '_blank')">Cool Math Games</button>
-      <button class="game-button" onclick="window.open('https://agame.com', '_blank')">A Game</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames999.co', '_blank')">Unblocked Games 999 (Different)</button>
-      <button class="game-button" onclick="window.open('https://abcya.com', '_blank')">ABCya</button>
-      <button class="game-button" onclick="window.open('https://gamingbolt.com', '_blank')">Gaming Bolt</button>
-      <button class="game-button" onclick="window.open('https://mathplayground.com', '_blank')">Math Playground</button>
-      <button class="game-button" onclick="window.open('https://mathgames.com', '_blank')">Math Games</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames880.com', '_blank')">Unblocked Games 880</button>
-      <button class="game-button" onclick="window.open('https://gamesgames.com', '_blank')">GamesGames</button>
-      <button class="game-button" onclick="window.open('https://poki.com', '_blank')">Poki</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames233.com', '_blank')">Unblocked Games 233</button>
-      <button class="game-button" onclick="window.open('https://jollyroger.cc', '_blank')">Jolly Roger</button>
-      <button class="game-button" onclick="window.open('https://unblockedgames557.com', '_blank')">Unblocked Games 557</button>
-      <button class="game-button" onclick="window.open('https://warthogacademy.com', '_blank')">Warthog Academy</button>
-      <button class="game-button" onclick="window.open('https://unblockedgamesvip.com', '_blank')">Unblocked Games VIP</button>
-      <button class="game-button" onclick="window.open('https://friv.com', '_blank')">Friv</button>
+      <button class="game-button" onclick="loadInFrame('https://duckmath.org', 'DuckMath')">DuckMath</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames.io', 'Unblocked Games at School')">Unblocked Games at School</button>
+      <button class="game-button" onclick="loadInFrame('https://sites.google.com/view/hackedgame/home', 'Hacked Unblocked Games')">Hacked Unblocked Games</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames24h.com', 'Unblocked Games 24h')">Unblocked Games 24h</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgamespod.com', 'Unblocked Games Pod')">Unblocked Games Pod</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames77.com', 'Unblocked Games 77')">Unblocked Games 77</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames66.github.io', 'Unblocked Games 66')">Unblocked Games 66</button>
+      <button class="game-button" onclick="loadInFrame('https://slopeunblocked.com', 'Slope Unblocked')">Slope Unblocked</button>
+      <button class="game-button" onclick="loadInFrame('https://classicflashgames.com', 'Classic Flash Games')">Classic Flash Games</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames333.com', 'Unblocked Games 333')">Unblocked Games 333</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames999.com', 'Unblocked Games 999')">Unblocked Games 999</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames67.github.io', 'Unblocked Games 67')">Unblocked Games 67</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgamez.com', 'Unblocked Gamez')">Unblocked Gamez</button>
+      <button class="game-button" onclick="loadInFrame('https://freegames66.com', 'Free Games 66')">Free Games 66</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames4000.com', 'Unblocked Games 4000')">Unblocked Games 4000</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames66.github.io', 'Unblocked Games 66 (Another Version)')">Unblocked Games 66 (Another Version)</button>
+      <button class="game-button" onclick="loadInFrame('https://pokifun.com', 'Poki Fun')">Poki Fun</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames333.github.io', 'Unblocked Games 333 (Another Version)')">Unblocked Games 333 (Another Version)</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames360.com', 'Unblocked Games 360')">Unblocked Games 360</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames.zone', 'Unblocked Games Zone')">Unblocked Games Zone</button>
+      <button class="game-button" onclick="loadInFrame('https://coolmathgames.com', 'Cool Math Games')">Cool Math Games</button>
+      <button class="game-button" onclick="loadInFrame('https://agame.com', 'A Game')">A Game</button>
+      <button class="game-button" onclick="loadInFrame('https://unblockedgames999.co', 'Unblocked Games 999 (Different)')">Unblocked Games 999 (Different)</button>
+      <button class="game-button" onclick="loadInFrame('https://abcya.com', 'ABCya')">ABCya</button>
+      <button class="game-button" onclick="loadInFrame('https://gamingbolt.com', 'Gaming Bolt')">Gaming Bolt</button>
+      <button class="game-button" onclick="loadInFrame('https://mathplayground.com', 'Math Playground')">Math Playground</button>
+      <button class="game-button" onclick="loadInFrame('https://mathgames.com', 'Math Games')">Math Games</button>
     </div>
 
-    <iframe id="game-frame" src="https://classroom6x.site/"></iframe>
+    <!-- Iframe to load games dynamically -->
+    <iframe id="game-frame" src="" title="Game Frame"></iframe>
+
   </div>
 
   <script>
-    function floodTabs() {
-      const url = "https://duckmath.org";
-      for (let i = 0; i < 20; i++) {
-        window.open(url, '_blank');
-      }
-    }
-
-    function panic() {
-      document.getElementById("game-frame").style.display = "none";
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
-        document.getElementById("game-frame").style.display = "block";
-      }
-    });
-
-    document.getElementById("content").addEventListener('dblclick', function () {
-      document.getElementById("game-frame").style.display = "block";
-    });
-
-    // Open URLs for tab cloaker (Google Docs, Classroom, etc.)
-    function openTab(url) {
-      window.open(url, '_blank');
+    // Function to change the iframe's src and tab title based on the clicked link
+    function loadInFrame(url, tabTitle) {
+      // Change the src of the iframe to the clicked game URL
+      document.getElementById('game-frame').src = url;
+      
+      // Change the title of the tab to the name of the site
+      document.title = tabTitle;
+      
+      // Show the iframe (in case it was hidden)
+      document.getElementById('game-frame').style.display = 'block';
     }
   </script>
-
 </body>
-</html
+</html>
