@@ -3,14 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <title>Google Docs</title>
-  <link id="dynamic-favicon" rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon">
+  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Your CSS remains unchanged */
-    /* ... [same CSS as before] ... */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Courier New', monospace;
+      background: #000;
+      overflow-x: hidden;
+    }
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: black;
+    }
+    #toolbar {
+      background-color: rgba(0, 0, 0, 0.85);
+      border-bottom: 2px solid #00ff00;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #00ff00;
+    }
+    #toolbar div {
+      font-size: 24px;
+    }
+    #toolbar button {
+      padding: 8px 16px;
+      font-size: 16px;
+      background-color: #003300;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    #toolbar button:hover {
+      background-color: #005500;
+    }
+    #content {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      color: #00ff00;
+    }
+    .button-group {
+      margin: 15px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .button-group button {
+      padding: 10px 15px;
+      background-color: rgba(0,51,0,0.8);
+      border: 1px solid #00ff00;
+      border-radius: 3px;
+      cursor: pointer;
+      color: #00ff00;
+      font-size: 16px;
+    }
+    .button-group button:hover {
+      background-color: rgba(0,77,0,0.9);
+    }
+    .cloak-button {
+      background-color: #006600;
+      border-color: #00ff00;
+    }
+    .cloak-button:hover {
+      background-color: #008800;
+    }
+    #gameFrame {
+      width: 90%;
+      height: 60vh;
+      border: 2px solid #00ff00;
+      margin: 20px auto;
+      display: none;
+      background-color: #000;
+    }
   </style>
 </head>
 <body>
+
   <canvas id="matrix-canvas"></canvas>
 
   <div id="toolbar">
@@ -25,35 +109,25 @@
     <h2>Study Tools & Games</h2>
     <p>Press <strong>Ctrl + G</strong> or double-tap this area to reveal the game frame.</p>
 
-    <!-- Cloak Buttons -->
     <div class="button-group" id="cloakButtons">
-      <button class="cloak-button" onclick="cloak('https://classroom.google.com', 'Google Classroom', 'https://ssl.gstatic.com/classroom/ic_product_classroom_32.png')">Cloak as Google Classroom</button>
-      <button class="cloak-button" onclick="cloak('https://drive.google.com', 'Google Drive', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png')">Cloak as Google Drive</button>
-      <button class="cloak-button" onclick="cloak('https://docs.google.com', 'Google Docs', 'https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Cloak as Google Docs</button>
-      <button class="cloak-button" onclick="cloak('https://skyward.iscorp.com', 'Skyward', 'https://www.skyward.com/favicon.ico')">Cloak as Skyward</button>
+      <button class="cloak-button" onclick="loadInFrame('https://classroom.google.com', 'Google Docs')">Cloak as Google Docs</button>
+      <button class="cloak-button" onclick="loadInFrame('https://drive.google.com', 'Google Drive')">Cloak as Google Drive</button>
+      <button class="cloak-button" onclick="loadInFrame('https://docs.google.com', 'Google Docs')">Cloak as Classroom</button>
+      <button class="cloak-button" onclick="loadInFrame('https://skyward.iscorp.com', 'Skyward')">Cloak as Skyward</button>
     </div>
 
-    <!-- Game Buttons -->
-    <!-- [Insert your 50 game button block here – unchanged from your code above] -->
+    <h3>Unblocked Game Sites</h3>
+    <div class="button-group" id="gameButtons">
+      <!-- Place all your 50 game buttons here (already included above) -->
+      <!-- Example -->
+      <button onclick="loadInFrame('https://unblocker.whitespider.gq/', 'WhiteSpider Unblocker')">WhiteSpider Unblocker</button>
+      <!-- Continue pasting the rest of the game buttons here... -->
+    </div>
 
     <iframe id="gameFrame" title="Game Frame"></iframe>
   </div>
 
   <script>
-    function cloak(url, title, iconUrl) {
-      const frame = document.getElementById("gameFrame");
-      const favicon = document.getElementById("dynamic-favicon");
-
-      frame.src = url;
-      frame.style.display = "block";
-      document.title = title;
-
-      // Change favicon
-      if (favicon) {
-        favicon.href = iconUrl;
-      }
-    }
-
     function loadInFrame(url, title) {
       var frame = document.getElementById("gameFrame");
       frame.src = url;
@@ -86,19 +160,18 @@
       frame.style.display = "block";
     });
 
-    // Matrix Effect - Unchanged
     (function() {
       var canvas = document.getElementById("matrix-canvas");
       var ctx = canvas.getContext("2d");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-
       var matrixChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()".split("");
       var fontSize = 16;
       var columns = canvas.width / fontSize;
       var drops = [];
-      for (var x = 0; x < columns; x++) drops[x] = Math.floor(Math.random() * canvas.height / fontSize);
-
+      for (var x = 0; x < columns; x++) {
+        drops[x] = Math.floor(Math.random() * canvas.height / fontSize);
+      }
       function draw() {
         ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -107,23 +180,15 @@
         for (var i = 0; i < drops.length; i++) {
           var text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
           ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
           drops[i]++;
         }
       }
       setInterval(draw, 33);
     })();
   </script>
-</body>
-</html>
-    
-          }
-          drops[i]++;
-        }
-      }
-      setInterval(draw, 33);
-    })();
-  </script>
-  
+
 </body>
 </html>
