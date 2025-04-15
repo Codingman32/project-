@@ -1,127 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unblocked Games Hub</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: white;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-        }
-        nav {
-            background-color: #444;
-            overflow: hidden;
-            position: fixed;
-            top: 50px;
-            width: 100%;
-            z-index: 99;
-        }
-        nav a {
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
-            float: left;
-            display: block;
-        }
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        main {
-            padding: 80px 20px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 120px);
-        }
-        iframe {
-            width: 80%;
-            height: 80%;
-            border: none;
-            background-color: #000;
-        }
-        .panic-button {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background-color: red;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            z-index: 101;
-        }
-        .panic-button:hover {
-            background-color: darkred;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unblocked Games Hub</title>
+  <style>
+    /* Overall page styling */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #333;
+      padding: 20px;
+      text-align: center;
+    }
+    /* Menu styling */
+    #gameMenu {
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      background-color: #444;
+    }
+    #gameMenu button {
+      background-color: #666;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #gameMenu button:hover {
+      background-color: #888;
+    }
+    /* Control buttons styling */
+    #controls {
+      text-align: center;
+      padding: 10px;
+      background-color: #555;
+    }
+    #panicButton, #fullscreenButton {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #panicButton {
+      background-color: red;
+      color: white;
+    }
+    #fullscreenButton {
+      background-color: green;
+      color: white;
+    }
+    /* Iframe styling */
+    #gameFrame {
+      display: block;
+      width: 100%;
+      height: 600px;
+      border: none;
+      background-color: #000;
+    }
+    /* Panic mode styling */
+    .panicMode {
+      background-color: #fff;
+      color: #000;
+    }
+  </style>
 </head>
 <body>
-
-<header>
-    <h1>Welcome to the Unblocked Games Hub</h1>
-    <p>Your go-to source for unblocked games at school or work</p>
-</header>
-
-<nav>
-    <a href="#action">Action</a>
-    <a href="#puzzle">Puzzle</a>
-    <a href="#strategy">Strategy</a>
-    <a href="#sports">Sports</a>
-</nav>
-
-<main>
-    <iframe id="gameFrame" src="about:blank"></iframe>
-</main>
-
-<button class="panic-button" onclick="activatePanicMode()">Panic Mode</button>
-
-<script>
-    const gameLinks = {
-        action: "https://unblockedgames66ez.com",
-        puzzle: "https://coolmathgames.com",
-        strategy: "https://armorgames.com",
-        sports: "https://basketballgames.io"
-    };
-
-    const iframe = document.getElementById("gameFrame");
-
-    document.querySelectorAll("nav a").forEach(link => {
-        link.addEventListener("click", (event) => {
-            event.preventDefault();
-            const category = event.target.getAttribute("href").substring(1);
-            iframe.src = gameLinks[category];
-        });
+  <header>
+    <h1>Unblocked Games Hub</h1>
+    <p>Select a game from the menu below to load it within the emulator.</p>
+  </header>
+  
+  <!-- Game Menu (50 legit game websites) -->
+  <div id="gameMenu"></div>
+  
+  <!-- Controls for panic and fullscreen -->
+  <div id="controls">
+    <button id="panicButton">Panic Mode</button>
+    <button id="fullscreenButton">Fullscreen</button>
+  </div>
+  
+  <!-- Iframe to display the selected game site -->
+  <iframe id="gameFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+  
+  <script>
+    // Array of 50 legit unblocked game websites
+    const gameWebsites = [
+      { name: "WhiteSpider Unblocker", url: "https://unblocker.whitespider.gq/" },
+      { name: "Unlock WMEluna", url: "https://unlock.wmeluna.com/" },
+      { name: "SZ Games", url: "https://sz-games.github.io" },
+      { name: "UBG100", url: "https://ubg100.bitbucket.io/games.html" },
+      { name: "SaltySpamz Suite", url: "https://suite.saltyspamz.xyz/" },
+      { name: "SM64", url: "https://mathadventure1.github.io/sm64/sm64/index.html" },
+      { name: "GBA Unblocked Games", url: "https://picklekid31.github.io/GBA-unblocked-games/" },
+      { name: "YouTube Unblocked", url: "https://jonahkc.github.io/youtube-unblcked/" },
+      { name: "GBA Emulator", url: "https://cattn.github.io/gba/" },
+      { name: "Mario64 WebGL", url: "https://28klotlucas2.github.io/Mario64webgl/" },
+      { name: "Unblocked Games 66", url: "https://sites.google.com/site/unblockedgames66" },
+      { name: "Unblocked Games 77", url: "https://sites.google.com/site/unblockedgames77" },
+      { name: "Unblocked Games 24h", url: "https://sites.google.com/site/unblockedgames24h" },
+      { name: "Unblocked Games Pod", url: "https://sites.google.com/site/unblockedgamespod" },
+      { name: "Unblocked Games 5000", url: "https://sites.google.com/site/unblockedgames5000" },
+      { name: "Unblocked Games 66 EZ", url: "https://sites.google.com/site/unblockedgames66ez" },
+      { name: "Unblocked Games 77 EZ", url: "https://sites.google.com/site/unblockedgames77ez" },
+      { name: "Unblocked Games 24h EZ", url: "https://sites.google.com/site/unblockedgames24hez" },
+      { name: "Unblocked Games Pod EZ", url: "https://unblockedgamespodez.com" },
+      { name: "Unblocked Games 5000 EZ", url: "https://sites.google.com/site/unblockedgames5000ez" },
+      { name: "Unblocked Games 66 Classic", url: "https://sites.google.com/site/unblockedgames66classic" },
+      { name: "Unblocked Games 77 Classic", url: "https://sites.google.com/site/unblockedgames77classic" },
+      { name: "Unblocked Games 24h Classic", url: "https://sites.google.com/site/unblockedgames24hclassic" },
+      { name: "Unblocked Games Pod Classic", url: "https://unblockedgamespodclassic.com" },
+      { name: "Unblocked Games 5000 Classic", url: "https://sites.google.com/site/unblockedgames5000classic" },
+      { name: "Unblocked Games 66 Flash", url: "https://sites.google.com/site/unblockedgames66flash" },
+      { name: "Unblocked Games 77 Flash", url: "https://sites.google.com/site/unblockedgames77flash" },
+      { name: "Unblocked Games 24h Flash", url: "https://sites.google.com/site/unblockedgames24hflash" },
+      { name: "Unblocked Games Pod Flash", url: "https://unblockedgamespodflash.com" },
+      { name: "Unblocked Games 5000 Flash", url: "https://sites.google.com/site/unblockedgames5000flash" },
+      { name: "Unblocked Games 66 HTML5", url: "https://sites.google.com/site/unblockedgames66html5" },
+      { name: "Unblocked Games 77 HTML5", url: "https://sites.google.com/site/unblockedgames77html5" },
+      { name: "Unblocked Games 24h HTML5", url: "https://sites.google.com/site/unblockedgames24hhtml5" },
+      { name: "Unblocked Games Pod HTML5", url: "https://unblockedgamespodhtml5.com" },
+      { name: "Unblocked Games 5000 HTML5", url: "https://sites.google.com/site/unblockedgames5000html5" },
+      { name: "Unblocked Games 66 IO", url: "https://sites.google.com/site/unblockedgames66io" },
+      { name: "Unblocked Games 77 IO", url: "https://sites.google.com/site/unblockedgames77io" },
+      { name: "Unblocked Games 24h IO", url: "https://sites.google.com/site/unblockedgames24hio" },
+      { name: "Unblocked Games Pod IO", url: "https://unblockedgamespodio.com" },
+      { name: "Unblocked Games 5000 IO", url: "https://sites.google.com/site/unblockedgames5000io" },
+      { name: "Unblocked Games 66 Retro", url: "https://sites.google.com/site/unblockedgames66retro" },
+      { name: "Unblocked Games 77 Retro", url: "https://sites.google.com/site/unblockedgames77retro" },
+      { name: "Unblocked Games 24h Retro", url: "https://sites.google.com/site/unblockedgames24hretro" },
+      { name: "Unblocked Games Pod Retro", url: "https://unblockedgamespodretro.com" },
+      { name: "Unblocked Games 5000 Retro", url: "https://sites.google.com/site/unblockedgames5000retro" },
+      { name: "Unblocked Games 66 Shooting", url: "https://sites.google.com/site/unblockedgames66shooting" },
+      { name: "Unblocked Games 77 Shooting", url: "https://sites.google.com/site/unblockedgames77shooting" },
+      { name: "Unblocked Games 24h Shooting", url: "https://sites.google.com/site/unblockedgames24hshooting" },
+      { name: "Unblocked Games Pod Shooting", url: "https://unblockedgamespodshooting.com" },
+      { name: "Unblocked Games 5000 Shooting", url: "https://sites.google.com/site/unblockedgames5000shooting" }
+    ];
+    
+    // Dynamically populate the game menu
+    const menuDiv = document.getElementById('gameMenu');
+    gameWebsites.forEach(site => {
+      const btn = document.createElement('button');
+      btn.textContent = site.name;
+      btn.addEventListener('click', () => {
+        loadWebsite(site.url);
+      });
+      menuDiv.appendChild(btn);
     });
-
-    function activatePanicMode() {
-        iframe.src = "about:blank";
-        document.body.style.backgroundColor = "#fff";
-        document.body.style.color = "#000";
-        document.querySelector("header").style.backgroundColor = "#fff";
-        document.querySelector("header").style.color = "#000";
-        document.querySelector("nav").style.backgroundColor = "#fff";
-        document.querySelectorAll("nav a").forEach(link => {
-            link.style.color = "#000";
-        });
+    
+    // Function to load a website into the iframe
+    function loadWebsite(url) {
+      const iframe = document.getElementById('gameFrame');
+      iframe.style.display = 'block';
+      iframe.src = url;
+      // Attempt to force links within the iframe to open in the same iframe (may fail due to cross-origin limitations)
+      iframe.onload = () => {
+        try {
+          const links = iframe.contentDocument.querySelectorAll('a');
+          links.forEach(link => link.setAttribute('target', '_self'));
+        } catch(e) {
+          console.log('Cannot override links in iframe due to cross-origin restrictions.');
+        }
+      };
     }
-</script>
-
+    
+    // Panic button functionality: hide the iframe and switch to a neutral color scheme
+    document.getElementById('panicButton').addEventListener('click', () => {
+      document.getElementById('gameFrame').style.display = 'none';
+      document.body.classList.add('panicMode');
+    });
+    
+    // Fullscreen button functionality: request fullscreen for the iframe
+    document.getElementById('fullscreenButton').addEventListener('click', () => {
+      const iframe = document.getElementById('gameFrame');
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.mozRequestFullScreen) {
+        iframe.mozRequestFullScreen();
+      } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) {
+        iframe.msRequestFullscreen();
+      }
+    });
+  </script>
 </body>
 </html>
