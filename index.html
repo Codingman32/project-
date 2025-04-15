@@ -2,197 +2,116 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Google Docs</title>
+  <link id="favicon" rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unblocked Games Hub</title>
   <style>
-    /* Overall page styling */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #1e1e1e;
-      color: white;
       margin: 0;
-      padding: 0;
+      font-family: 'Courier New', monospace;
+      background-color: black;
+      color: #00ff00;
     }
-    header {
-      background-color: #333;
-      padding: 20px;
-      text-align: center;
+    #toolbar {
+      background-color: #000;
+      border-bottom: 2px solid #00ff00;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    /* Menu styling */
-    #gameMenu {
-      padding: 20px;
+    #toolbar button {
+      background-color: #003300;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      padding: 8px 16px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    #gameFrame {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      background-color: #111;
+      display: none;
+    }
+    .button-group {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
-      background-color: #444;
+      margin: 20px;
     }
-    #gameMenu button {
-      background-color: #666;
-      border: none;
-      color: white;
-      padding: 10px 15px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    #gameMenu button:hover {
-      background-color: #888;
-    }
-    /* Control buttons styling */
-    #controls {
-      text-align: center;
+    .button-group button {
+      background-color: #002200;
+      border: 1px solid #00ff00;
+      color: #00ff00;
       padding: 10px;
-      background-color: #555;
-    }
-    #panicButton, #fullscreenButton {
-      padding: 10px 20px;
-      margin: 5px;
-      border: none;
       cursor: pointer;
-      font-size: 16px;
     }
-    #panicButton {
-      background-color: red;
-      color: white;
-    }
-    #fullscreenButton {
-      background-color: green;
-      color: white;
-    }
-    /* Iframe styling */
-    #gameFrame {
-      display: block;
-      width: 100%;
-      height: 600px;
-      border: none;
-      background-color: #000;
-    }
-    /* Panic mode styling */
-    .panicMode {
-      background-color: #fff;
-      color: #000;
+    .button-group button:hover {
+      background-color: #004400;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Unblocked Games Hub</h1>
-    <p>Select a game from the menu below to load it within the emulator.</p>
-  </header>
-  
-  <!-- Game Menu (50 legit game websites) -->
-  <div id="gameMenu"></div>
-  
-  <!-- Controls for panic and fullscreen -->
-  <div id="controls">
-    <button id="panicButton">Panic Mode</button>
-    <button id="fullscreenButton">Fullscreen</button>
+
+  <div id="toolbar">
+    <div>Study Terminal</div>
+    <div>
+      <button onclick="panic()">Panic</button>
+      <button onclick="toggleFrame()">Toggle Frame</button>
+    </div>
   </div>
-  
-  <!-- Iframe to display the selected game site -->
-  <iframe id="gameFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
-  
+
+  <div class="button-group">
+    <button onclick="cloak('Google Docs', 'https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Cloak as Docs</button>
+    <button onclick="cloak('Google Drive', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.ico')">Cloak as Drive</button>
+    <button onclick="cloak('Google Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">Cloak as Classroom</button>
+  </div>
+
+  <div class="button-group" id="gameButtons">
+    <!-- Add your games here -->
+    <button onclick="loadGame('https://ubg44.github.io/')">UBG44</button>
+    <button onclick="loadGame('https://ubg100.github.io/')">UBG100</button>
+    <button onclick="loadGame('https://ubg76.github.io/')">UBG76</button>
+    <button onclick="loadGame('https://ubg98.github.io/')">UBG98</button>
+    <button onclick="loadGame('https://ubg88.github.io/')">UBG88</button>
+    <button onclick="loadGame('https://1v1.lol/')">1v1.LOL</button>
+    <button onclick="loadGame('https://retrobowl.me/')">Retro Bowl</button>
+    <button onclick="loadGame('https://slopegame.io/')">Slope</button>
+    <button onclick="loadGame('https://geometrydash.ee/')">Geometry Dash</button>
+    <button onclick="loadGame('https://krunker.io/')">Krunker</button>
+    <!-- Add more iframes here up to 100 -->
+  </div>
+
+  <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+
   <script>
-    // Array of 50 legit unblocked game websites
-    const gameWebsites = [
-      { name: "WhiteSpider Unblocker", url: "https://unblocker.whitespider.gq/" },
-      { name: "Unlock WMEluna", url: "https://unlock.wmeluna.com/" },
-      { name: "SZ Games", url: "https://sz-games.github.io" },
-      { name: "UBG100", url: "https://ubg100.bitbucket.io/games.html" },
-      { name: "SaltySpamz Suite", url: "https://suite.saltyspamz.xyz/" },
-      { name: "SM64", url: "https://mathadventure1.github.io/sm64/sm64/index.html" },
-      { name: "GBA Unblocked Games", url: "https://picklekid31.github.io/GBA-unblocked-games/" },
-      { name: "YouTube Unblocked", url: "https://jonahkc.github.io/youtube-unblcked/" },
-      { name: "GBA Emulator", url: "https://cattn.github.io/gba/" },
-      { name: "Mario64 WebGL", url: "https://28klotlucas2.github.io/Mario64webgl/" },
-      { name: "Unblocked Games 66", url: "https://sites.google.com/site/unblockedgames66" },
-      { name: "Unblocked Games 77", url: "https://sites.google.com/site/unblockedgames77" },
-      { name: "Unblocked Games 24h", url: "https://sites.google.com/site/unblockedgames24h" },
-      { name: "Unblocked Games Pod", url: "https://sites.google.com/site/unblockedgamespod" },
-      { name: "Unblocked Games 5000", url: "https://sites.google.com/site/unblockedgames5000" },
-      { name: "Unblocked Games 66 EZ", url: "https://sites.google.com/site/unblockedgames66ez" },
-      { name: "Unblocked Games 77 EZ", url: "https://sites.google.com/site/unblockedgames77ez" },
-      { name: "Unblocked Games 24h EZ", url: "https://sites.google.com/site/unblockedgames24hez" },
-      { name: "Unblocked Games Pod EZ", url: "https://unblockedgamespodez.com" },
-      { name: "Unblocked Games 5000 EZ", url: "https://sites.google.com/site/unblockedgames5000ez" },
-      { name: "Unblocked Games 66 Classic", url: "https://sites.google.com/site/unblockedgames66classic" },
-      { name: "Unblocked Games 77 Classic", url: "https://sites.google.com/site/unblockedgames77classic" },
-      { name: "Unblocked Games 24h Classic", url: "https://sites.google.com/site/unblockedgames24hclassic" },
-      { name: "Unblocked Games Pod Classic", url: "https://unblockedgamespodclassic.com" },
-      { name: "Unblocked Games 5000 Classic", url: "https://sites.google.com/site/unblockedgames5000classic" },
-      { name: "Unblocked Games 66 Flash", url: "https://sites.google.com/site/unblockedgames66flash" },
-      { name: "Unblocked Games 77 Flash", url: "https://sites.google.com/site/unblockedgames77flash" },
-      { name: "Unblocked Games 24h Flash", url: "https://sites.google.com/site/unblockedgames24hflash" },
-      { name: "Unblocked Games Pod Flash", url: "https://unblockedgamespodflash.com" },
-      { name: "Unblocked Games 5000 Flash", url: "https://sites.google.com/site/unblockedgames5000flash" },
-      { name: "Unblocked Games 66 HTML5", url: "https://sites.google.com/site/unblockedgames66html5" },
-      { name: "Unblocked Games 77 HTML5", url: "https://sites.google.com/site/unblockedgames77html5" },
-      { name: "Unblocked Games 24h HTML5", url: "https://sites.google.com/site/unblockedgames24hhtml5" },
-      { name: "Unblocked Games Pod HTML5", url: "https://unblockedgamespodhtml5.com" },
-      { name: "Unblocked Games 5000 HTML5", url: "https://sites.google.com/site/unblockedgames5000html5" },
-      { name: "Unblocked Games 66 IO", url: "https://sites.google.com/site/unblockedgames66io" },
-      { name: "Unblocked Games 77 IO", url: "https://sites.google.com/site/unblockedgames77io" },
-      { name: "Unblocked Games 24h IO", url: "https://sites.google.com/site/unblockedgames24hio" },
-      { name: "Unblocked Games Pod IO", url: "https://unblockedgamespodio.com" },
-      { name: "Unblocked Games 5000 IO", url: "https://sites.google.com/site/unblockedgames5000io" },
-      { name: "Unblocked Games 66 Retro", url: "https://sites.google.com/site/unblockedgames66retro" },
-      { name: "Unblocked Games 77 Retro", url: "https://sites.google.com/site/unblockedgames77retro" },
-      { name: "Unblocked Games 24h Retro", url: "https://sites.google.com/site/unblockedgames24hretro" },
-      { name: "Unblocked Games Pod Retro", url: "https://unblockedgamespodretro.com" },
-      { name: "Unblocked Games 5000 Retro", url: "https://sites.google.com/site/unblockedgames5000retro" },
-      { name: "Unblocked Games 66 Shooting", url: "https://sites.google.com/site/unblockedgames66shooting" },
-      { name: "Unblocked Games 77 Shooting", url: "https://sites.google.com/site/unblockedgames77shooting" },
-      { name: "Unblocked Games 24h Shooting", url: "https://sites.google.com/site/unblockedgames24hshooting" },
-      { name: "Unblocked Games Pod Shooting", url: "https://unblockedgamespodshooting.com" },
-      { name: "Unblocked Games 5000 Shooting", url: "https://sites.google.com/site/unblockedgames5000shooting" }
-    ];
-    
-    // Dynamically populate the game menu
-    const menuDiv = document.getElementById('gameMenu');
-    gameWebsites.forEach(site => {
-      const btn = document.createElement('button');
-      btn.textContent = site.name;
-      btn.addEventListener('click', () => {
-        loadWebsite(site.url);
-      });
-      menuDiv.appendChild(btn);
-    });
-    
-    // Function to load a website into the iframe
-    function loadWebsite(url) {
-      const iframe = document.getElementById('gameFrame');
-      iframe.style.display = 'block';
-      iframe.src = url;
-      // Attempt to force links within the iframe to open in the same iframe (may fail due to cross-origin limitations)
-      iframe.onload = () => {
-        try {
-          const links = iframe.contentDocument.querySelectorAll('a');
-          links.forEach(link => link.setAttribute('target', '_self'));
-        } catch(e) {
-          console.log('Cannot override links in iframe due to cross-origin restrictions.');
-        }
-      };
+    function loadGame(url) {
+      const frame = document.getElementById('gameFrame');
+      frame.src = url;
+      frame.style.display = 'block';
     }
-    
-    // Panic button functionality: hide the iframe and switch to a neutral color scheme
-    document.getElementById('panicButton').addEventListener('click', () => {
-      document.getElementById('gameFrame').style.display = 'none';
-      document.body.classList.add('panicMode');
-    });
-    
-    // Fullscreen button functionality: request fullscreen for the iframe
-    document.getElementById('fullscreenButton').addEventListener('click', () => {
-      const iframe = document.getElementById('gameFrame');
-      if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-      } else if (iframe.mozRequestFullScreen) {
-        iframe.mozRequestFullScreen();
-      } else if (iframe.webkitRequestFullscreen) {
-        iframe.webkitRequestFullscreen();
-      } else if (iframe.msRequestFullscreen) {
-        iframe.msRequestFullscreen();
-      }
-    });
+
+    function toggleFrame() {
+      const frame = document.getElementById('gameFrame');
+      frame.style.display = (frame.style.display === 'none') ? 'block' : 'none';
+    }
+
+    function panic() {
+      const frame = document.getElementById('gameFrame');
+      frame.src = '';
+      frame.style.display = 'none';
+      document.title = 'Class Notes';
+      document.getElementById('favicon').href = 'https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico';
+    }
+
+    function cloak(title, icon) {
+      document.title = title;
+      document.getElementById('favicon').href = icon;
+    }
   </script>
+
 </body>
 </html>
