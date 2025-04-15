@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -11,15 +11,6 @@
       background-color: black;
       color: #0f0;
       font-family: monospace;
-    }
-
-    #matrix-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
     }
 
     #toolbar {
@@ -95,11 +86,6 @@
       margin-top: 20px;
     }
 
-    #switchUrlBtn {
-      display: block;
-      margin: 10px auto;
-    }
-
     #statusMessage {
       text-align: center;
       margin-top: 10px;
@@ -113,8 +99,6 @@
   </style>
 </head>
 <body>
-
-<canvas id="matrix-canvas"></canvas>
 
 <div id="toolbar">
   <div>Study Platform - Terminal Mode</div>
@@ -131,42 +115,63 @@
 </div>
 
 <div class="thumbnail-grid" id="gameButtons">
-  <div class="thumb" onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">
-    <img src="https://icons8.com/icon/7g7fPk3OqFf0/retro-bowl" alt="Retro Bowl">
+  <div class="thumb" onclick="loadGame('https://retrobowlunblocked.github.io')">
+    <img src="https://yourdomain.com/images/retro-bowl.png" alt="Retro Bowl">
     <span>Retro Bowl</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://1v1.lol', 'https://1v1.lol')">
-    <img src="https://www.crazygames.com/game/1v1-lol" alt="1v1.LOL">
+  <div class="thumb" onclick="loadGame('https://1v1.lol')">
+    <img src="https://yourdomain.com/images/1v1-lol.png" alt="1v1.LOL">
     <span>1v1.LOL</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
-    <img src="https://logos.fandom.com/wiki/Geometry_Dash" alt="Geometry Dash">
+  <div class="thumb" onclick="loadGame('https://geometrydashonline.com')">
+    <img src="https://yourdomain.com/images/geometry-dash.png" alt="Geometry Dash">
     <span>Geometry Dash</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://slopegame.online', 'https://geometrydashonline.com')">
-    <img src="https://slope-game.github.io/" alt="Slope">
+  <div class="thumb" onclick="loadGame('https://slopegame.online')">
+    <img src="https://yourdomain.com/images/slope.png" alt="Slope">
     <span>Slope</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://krunker.io', 'https://alt.krunker.io')">
-    <img src="https://krunker.io/" alt="Krunker">
+  <div class="thumb" onclick="loadGame('https://krunker.io')">
+    <img src="https://yourdomain.com/images/krunker.png" alt="Krunker">
     <span>Krunker</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://cookieclickerunblocked.github.io', 'https://cookieclicker.io')">
-    <img src="https://orteil.dashnet.org/cookieclicker/" alt="Cookie Clicker">
+  <div class="thumb" onclick="loadGame('https://cookieclickerunblocked.github.io')">
+    <img src="https://yourdomain.com/images/cookie-clicker.png" alt="Cookie Clicker">
     <span>Cookie Clicker</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://run3unblocked.github.io', 'https://run3.io')">
-    <img src="https://run.fandom.com/wiki/Run_3" alt="Run 3">
+  <div class="thumb" onclick="loadGame('https://run3unblocked.github.io')">
+    <img src="https://yourdomain.com/images/run3.png" alt="Run 3">
     <span>Run 3</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://fnfunblocked.github.io', 'https://fnf.io')">
-    <img src="https://logos.fandom.com/wiki/Friday_Night_Funkin%27" alt="Friday Night Funkin'">
+  <div class="thumb" onclick="loadGame('https://fnfunblocked.github.io')">
+    <img src="https://yourdomain.com/images/fnf.png" alt="Friday Night Funkin'">
     <span>FNF</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://amongusunblocked.github.io', 'https://amongus.io')">
-    <img src="https://www.innersloth.com/games/among-us/" alt="Among Us">
+  <div class="thumb" onclick="loadGame('https://amongusunblocked.github.io')">
+    <img src="https://yourdomain.com/images/among-us.png" alt="Among Us">
     <span>Among Us</span>
   </div>
-  <div class="thumb" onclick="loadGame('https://gunspinunblocked.github.io', 'https://gunspin.io')">
-    <img src="https://1games.io/gunspin" alt="GunSpin">
-    <span>GunSpin</span 
+</div>
+
+<iframe id="gameFrame" src=""></iframe>
+
+<div id="statusMessage"></div>
+
+<script>
+  function loadGame(url) {
+    document.getElementById('gameFrame').src = url;
+    document.getElementById('statusMessage').textContent = 'Loading game...';
+  }
+
+  function cloak(title, faviconUrl) {
+    document.title = title;
+    document.getElementById('favicon').href = faviconUrl;
+  }
+
+  function panic() {
+    window.location.href = 'https://www.google.com';
+  }
+
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => 
