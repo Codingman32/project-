@@ -1,55 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Middle School Homework</title>
+  <title>English Homework - Google Docs</title>
+  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico">
   <style>
     body {
-      font-family: sans-serif;
-      text-align: center;
-      background-color: #f0f0f0;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #202124;
     }
-    #game {
-      width: 90%;
-      height: 600px;
+    #toolbar {
+      background-color: #f1f3f4;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #dadce0;
+    }
+    #content {
+      padding: 20px;
+      height: 80vh;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
       border: none;
       display: none;
-      margin: 20px auto;
     }
-    .game-button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
+    .game-button, #panic {
+      background: #fff;
+      color: #000;
+      border: 1px solid #dadce0;
+      padding: 5px 10px;
+      margin: 2px;
+      cursor: pointer;
+    }
+    #game-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    #game-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
     }
   </style>
 </head>
 <body>
-  <h1>Middle School Homework</h1>
-  <button class="game-button" onclick="loadGame('https://ubg100.bitbucket.io/games.html')">UBG100</button>
-  <button class="game-button" onclick="loadGame('https://sz-games.github.io/')">SZ Games</button>
-  <button class="game-button" onclick="loadGame('https://emulatoros.github.io/')">EmulatorOS</button>
-  <button class="game-button" onclick="loadGame('https://superteamxx.github.io/Subway-Surfers/')">Subway Surfers</button>
-  <button class="game-button" onclick="loadGame('https://2048game.com/')">2048</button>
-  <button class="game-button" onclick="panic()">Panic</button>
+  <div id="toolbar">
+    <div>English Essay - Period 4</div>
+    <div>
+      <button id="panic" onclick="panic()">Panic</button>
+    </div>
+  </div>
+  <div id="content">
+    <p>Instructions: Write your final essay here. Use proper citations and MLA formatting.</p>
+    <p>Double tap or press <strong>Ctrl + G</strong> to toggle the game.</p>
+    
+    <div id="game-buttons">
+      <button class="game-button" onclick="loadGame('https://sz-games.github.io/')">SZ Games</button>
+      <button class="game-button" onclick="loadGame('https://2048game.com/')">2048</button>
+      <button class="game-button" onclick="loadGame('https://ubg98.github.io/')">UBG98</button>
+      <button class="game-button" onclick="loadGame('https://ubg100.github.io/')">UBG100</button>
+      <button class="game-button" onclick="loadGame('https://ubg88.github.io/')">UBG88</button>
+      <button class="game-button" onclick="loadGame('https://ubgstation.github.io/')">UBG Station</button>
+      <button class="game-button" onclick="loadGame('https://ubg365.github.io/')">UBG365</button>
+      <button class="game-button" onclick="loadGame('https://ubg44.github.io/')">UBG44</button>
+      <button class="game-button" onclick="loadGame('https://ubgunblocked.github.io/')">UBG Unblocked</button>
+      <button class="game-button" onclick="loadGame('https://unblocked-games.s3.amazonaws.com/index.html')">Unblocked Mirror</button>
+      <button class="game-button" onclick="loadGame('https://ubg17.github.io/')">UBG17</button>
+      <button class="game-button" onclick="loadGame('https://unblockedgames.dev/')">UBG Dev</button>
+      <button class="game-button" onclick="loadGame('https://ubgbox.github.io/')">UBG Box</button>
+      <button class="game-button" onclick="loadGame('https://ubg98.github.io/bitlife/')">Bitlife (UBG98)</button>
+      <button class="game-button" onclick="loadGame('https://ubg98.github.io/retro-bowl/')">Retro Bowl</button>
+      <button class="game-button" onclick="loadGame('https://ubg98.github.io/moto-x3m/')">Moto X3M</button>
+      <button class="game-button" onclick="loadGame('https://ubg98.github.io/run-3/')">Run 3</button>
+      <button class="game-button" onclick="loadGame('https://ubg98.github.io/drive-mad/')">Drive Mad</button>
+      <button class="game-button" onclick="loadGame('https://ubg98.github.io/crossy-road/')">Crossy Road</button>
+      <button class="game-button" onclick="loadGame('https://ubg98.github.io/tiny-fishing/')">Tiny Fishing</button>
+    </div>
 
-  <iframe id="game"></iframe>
+    <div id="game-container">
+      <iframe id="game" src=""></iframe>
+    </div>
+  </div>
 
   <script>
     function loadGame(url) {
-      const gameFrame = document.getElementById("game");
-      gameFrame.src = url;
-      gameFrame.style.display = "block";
+      const frame = document.getElementById("game");
+      frame.src = url;
+      frame.style.display = "block";
+      document.getElementById("game-container").style.visibility = "visible";
+      document.getElementById("game-container").style.width = "100%";
+      document.getElementById("game-container").style.height = "100%";
     }
 
     function panic() {
-      const gameFrame = document.getElementById("game");
-      gameFrame.style.display = "none";
-      gameFrame.src = "";
+      document.getElementById("game").style.display = "none";
+      document.getElementById("game").src = "";
+      document.getElementById("game-container").style.visibility = "hidden";
+      document.getElementById("game-container").style.width = "0";
+      document.getElementById("game-container").style.height = "0";
     }
 
-    // Optional: Add keyboard shortcut for panic (e.g., Ctrl + G)
-    document.addEventListener("keydown", function (event) {
-      if (event.ctrlKey && event.key === "g") {
+    // Hotkey: Ctrl+G or Cmd+G to toggle iframe
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
+        const frame = document.getElementById("game");
+        if (frame.style.display === "none") {
+          loadGame(frame.src);
+        } else {
+          panic();
+        }
+      }
+    });
+
+    // Double tap mobile support
+    document.getElementById("content").addEventListener('dblclick', function () {
+      const frame = document.getElementById("game");
+      if (frame.style.display === "none") {
+        loadGame(frame.src);
+      } else {
         panic();
       }
     });
