@@ -9,99 +9,67 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: black;
       overflow: hidden;
-      color: #00ff00;
+      height: 100%;
+      background: black;
       font-family: monospace;
+      color: #00ff00;
     }
     #matrix-canvas {
       position: fixed;
+      top: 0;
+      left: 0;
       z-index: -1;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+    }
+    #toolbar, .button-group, #statusMessage, #iframe-instructions, #mobileToggle {
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.75);
     }
     #toolbar {
       display: flex;
       justify-content: space-between;
-      padding: 10px;
-      background: #111;
-      border-bottom: 2px solid #00ff00;
-      flex-wrap: wrap;
+      align-items: center;
     }
     .button-group {
       display: flex;
       flex-wrap: wrap;
-      padding: 10px;
-      background: #111;
       gap: 10px;
-    }
-    .button-group button {
-      background: #000;
-      color: #0f0;
-      border: 1px solid #0f0;
-      cursor: pointer;
-      padding: 10px;
-    }
-    #gameButtons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-      padding: 10px;
     }
     .game-thumb {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      background: #111;
-      border: 1px solid #0f0;
-      padding: 5px;
-    }
-    .game-thumb img {
       width: 100px;
-      height: 80px;
+      height: 100px;
       object-fit: cover;
-      margin-bottom: 5px;
+      cursor: pointer;
+      border: 2px solid #00ff00;
     }
-    #gameFrame {
+    iframe {
       width: 100%;
-      height: 600px;
+      height: 500px;
       border: none;
-      display: none;
-    }
-    #switchUrlBtn, #statusMessage, #iframe-instructions {
-      margin: 10px;
+      display: block;
+      margin-top: 10px;
     }
     #blurOverlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       backdrop-filter: blur(10px);
       z-index: 9999;
       display: none;
     }
-
-    /* Mobile Mode Toggle */
-    .mobile-mode body, .mobile-mode #gameButtons {
-      display: block !important;
-    }
-    .mobile-mode .game-thumb {
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: 10px;
-    }
-    .mobile-mode .game-thumb img {
-      width: 60px;
-      height: 50px;
-    }
-    .mobile-mode #gameFrame {
-      height: 400px;
+    @media (max-width: 768px) {
+      iframe {
+        height: 300px;
+      }
     }
   </style>
 </head>
 <body>
 
 <canvas id="matrix-canvas"></canvas>
+
 <div id="blurOverlay"></div>
 
 <div id="toolbar">
@@ -109,76 +77,51 @@
   <div>
     <button onclick="panic()">Panic</button>
     <button onclick="toggleFullScreen()">Fullscreen</button>
-    <button onclick="toggleMobileMode()">Mobile Mode</button>
+    <button onclick="toggleMobile()">Mobile Mode</button>
   </div>
 </div>
 
 <div class="button-group">
-  <button onclick="cloak('Google Docs', 'https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Cloak as Docs</button>
-  <button onclick="cloak('Google Drive', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.ico')">Cloak as Drive</button>
-  <button onclick="cloak('Google Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">Cloak as Classroom</button>
+  <button onclick="cloak('Google Docs', 'https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Google Docs</button>
+  <button onclick="cloak('Google Drive', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.ico')">Google Drive</button>
+  <button onclick="cloak('Google Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">Google Classroom</button>
 </div>
 
-<div id="gameButtons"></div>
+<div class="button-group" id="gameButtons">
+  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5f/Retro_Bowl_cover.png/220px-Retro_Bowl_cover.png" class="game-thumb" title="Retro Bowl" onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">
+  <img src="https://www.ubg44.com/favicon.ico" class="game-thumb" title="UBG44" onclick="loadGame('https://ubg44.github.io', 'https://ubg98.github.io')">
+  <img src="https://www.ubg98.com/favicon.ico" class="game-thumb" title="UBG98" onclick="loadGame('https://ubg98.github.io', 'https://ubg44.github.io')">
+  <img src="https://1v1.lol/favicon.ico" class="game-thumb" title="1v1.LOL" onclick="loadGame('https://1v1.lol', 'https://1v1.lol')">
+  <img src="https://geometrydashonline.com/favicon.ico" class="game-thumb" title="Geometry Dash" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
+  <img src="https://slopegame.online/favicon.ico" class="game-thumb" title="Slope" onclick="loadGame('https://slopegame.online', 'https://geometrydashonline.com')">
+  <img src="https://krunker.io/img/favicon.png" class="game-thumb" title="Krunker" onclick="loadGame('https://krunker.io', 'https://alt.krunker.io')">
+  <img src="https://diep.io/favicon.ico" class="game-thumb" title="Diep.io" onclick="loadGame('https://diep.io', 'https://alt.diep.io')">
+</div>
 
 <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
 <button id="switchUrlBtn" onclick="switchToAltUrl()">Try Alternative Game</button>
+
 <div id="statusMessage">Game Frame is OFF</div>
 
 <div id="iframe-instructions">
   <p><strong>How the Game Frame Works:</strong></p>
-  <p>Click a game to load it below. If it's blocked, it switches to a backup URL. Clicking a game also downloads it locally.</p>
+  <p>The game iframe below is used to play various unblocked games directly on this page. If the game is blocked or fails, it will automatically switch to an alternate URL, and you’ll get a manual option too.</p>
 </div>
 
 <script>
-  const games = [
-    { name: 'Retro Bowl', img: 'https://i.imgur.com/z4d4kWk.png', url: 'https://retrobowlunblocked.github.io', alt: 'https://ubg98.github.io' },
-    { name: '1v1.LOL', img: 'https://i.imgur.com/4dI3kpx.png', url: 'https://1v1.lol', alt: 'https://1v1.lol' },
-    { name: 'Geometry Dash', img: 'https://i.imgur.com/0zlr0dJ.png', url: 'https://geometrydashonline.com', alt: 'https://slopegame.online' },
-    { name: 'Slope', img: 'https://i.imgur.com/IXZZI4x.png', url: 'https://slopegame.online', alt: 'https://geometrydashonline.com' },
-    { name: 'Cookie Clicker', img: 'https://i.imgur.com/83jLvtf.png', url: 'https://cookieclickerunblocked.github.io', alt: 'https://cookieclicker.io' },
-    { name: 'Among Us', img: 'https://i.imgur.com/fWEOfyK.png', url: 'https://amongusunblocked.github.io', alt: 'https://amongus.io' }
-  ];
-
-  const container = document.getElementById('gameButtons');
-  const iframe = document.getElementById('gameFrame');
-  const switchBtn = document.getElementById('switchUrlBtn');
-  const status = document.getElementById('statusMessage');
-
-  games.forEach(g => {
-    const div = document.createElement('div');
-    div.className = 'game-thumb';
-    div.innerHTML = `<img src="${g.img}" alt="${g.name}"><button onclick="loadGame('${g.url}', '${g.alt}', '${g.name}')">${g.name}</button>`;
-    container.appendChild(div);
-  });
+  let activeGame = null;
+  let altGame = null;
 
   function cloak(title, icon) {
-    document.getElementById('page-title').innerText = title;
+    document.title = title;
     document.getElementById('favicon').href = icon;
   }
 
-  let activeURL = '';
-  let altURL = '';
-
-  function loadGame(url, alt, name) {
-    activeURL = url;
-    altURL = alt;
-    iframe.src = url;
-    iframe.style.display = 'block';
-    status.innerText = `Now playing: ${name}`;
-    triggerDownload(name + '.html', `<iframe src="${url}" width="100%" height="100%"></iframe>`);
-  }
-
-  function switchToAltUrl() {
-    if (altURL) {
-      iframe.src = altURL;
-      status.innerText = 'Switched to alternate game URL.';
-    }
-  }
-
   function panic() {
-    iframe.style.display = 'none';
-    status.innerText = 'Game Frame is OFF';
+    document.title = "Google Search";
+    document.getElementById('favicon').href = "https://www.google.com/favicon.ico";
+    document.getElementById("gameFrame").src = "";
+    document.getElementById("statusMessage").textContent = "Game Frame is OFF";
   }
 
   function toggleFullScreen() {
@@ -189,61 +132,76 @@
     }
   }
 
-  function triggerDownload(filename, content) {
-    const blob = new Blob([content], { type: 'text/html' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
+  function toggleMobile() {
+    alert("Mobile mode toggled! Some styles will adapt on small screens automatically.");
   }
 
-  function toggleMobileMode() {
-    document.body.classList.toggle('mobile-mode');
+  function loadGame(url, altUrl) {
+    activeGame = url;
+    altGame = altUrl;
+    document.getElementById("gameFrame").src = url;
+    document.getElementById("statusMessage").textContent = "Game is loading...";
   }
 
-  // Matrix background
-  const canvas = document.getElementById('matrix-canvas');
-  const ctx = canvas.getContext('2d');
+  function switchToAltUrl() {
+    if (altGame) {
+      document.getElementById("gameFrame").src = altGame;
+      document.getElementById("statusMessage").textContent = "Switched to alternate URL.";
+    }
+  }
+
+  // Matrix effect
+  const canvas = document.getElementById("matrix-canvas");
+  const ctx = canvas.getContext("2d");
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
-  const columns = canvas.width / 20;
+  const letters = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
   const drops = Array(Math.floor(columns)).fill(1);
-
   function drawMatrix() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#0F0';
-    ctx.font = '15px monospace';
+    ctx.fillStyle = "#0F0";
+    ctx.font = fontSize + "px monospace";
     for (let i = 0; i < drops.length; i++) {
-      const text = String.fromCharCode(65 + Math.random() * 58);
-      ctx.fillText(text, i * 20, drops[i] * 20);
-      if (drops[i] * 20 > canvas.height || Math.random() > 0.95) drops[i] = 0;
+      const text = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
       drops[i]++;
     }
   }
-  setInterval(drawMatrix, 50);
+  setInterval(drawMatrix, 33);
 
-  // AFK Blur
-  let afkTimer;
-  function resetAFKTimer() {
-    clearTimeout(afkTimer);
-    document.getElementById('blurOverlay').style.display = 'none';
-    afkTimer = setTimeout(() => {
-      document.getElementById('blurOverlay').style.display = 'block';
+  // Tab scanner for Classwize/GoGuardian
+  setInterval(() => {
+    const tabs = [document.title.toLowerCase()];
+    const badWords = ["classwize", "goguardian"];
+    if (tabs.some(tab => badWords.some(word => tab.includes(word)))) {
+      document.body.innerHTML = "<h1 style='color:red;text-align:center;'>Blocked monitoring software detected. Access denied.</h1>";
+    }
+  }, 2000);
+
+  // AFK detection
+  let afkTimeout;
+  const blurOverlay = document.getElementById("blurOverlay");
+
+  function resetAFK() {
+    clearTimeout(afkTimeout);
+    blurOverlay.style.display = "none";
+    afkTimeout = setTimeout(() => {
+      blurOverlay.style.display = "block";
     }, 15000);
   }
-  ['mousemove', 'keydown', 'click', 'scroll'].forEach(e => window.addEventListener(e, resetAFKTimer));
-  resetAFKTimer();
 
-  // Block detection
-  function scanTabs() {
-    const suspected = ['classwize', 'goguardian'];
-    const title = document.title.toLowerCase();
-    const referrer = document.referrer.toLowerCase();
-    const userAgent = navigator.userAgent.toLowerCase();
+  document.addEventListener("mousemove", resetAFK);
+  document.addEventListener("keydown", resetAFK);
+  document.addEventListener("click", resetAFK);
+  resetAFK();
+</script>
 
-    if (suspected.some(str => title.includes(str) || referrer.includes(str) || userAgent.includes(str))) {
-      document.body.innerHTML = '<h1 style="color:red;text-align:center;">Access blocked due to monitoring tools.</h1>';
+</body>
+</html>
     }
   }
   scanTabs();
