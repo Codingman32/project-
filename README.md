@@ -1,1 +1,1 @@
-https://codingman32.github.io/Middle-school-homework/
+https://codingman32.github.io/project-/
