@@ -73,16 +73,11 @@
     #iframe-instructions {
       padding: 10px;
     }
-    #mobileToggle {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 10000;
-    }
   </style>
 </head>
 <body>
 <canvas id="matrix-canvas"></canvas>
+
 <div id="toolbar">
   <div>Study Platform - Terminal Mode</div>
   <div>
@@ -99,7 +94,6 @@
 </div>
 
 <div class="button-group" id="gameButtons">
-  <!-- Game thumbnails -->
   <img class="game-thumb" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Retro_Bowl_cover.png/220px-Retro_Bowl_cover.png" alt="Retro Bowl" onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">
   <img class="game-thumb" src="https://play-lh.googleusercontent.com/pKFM21AqheVR6AfegHu4L9kxALgBpdKylN-VRo04wTh5I0WZhMfCS6bQaCvV2RdfKg" alt="Geometry Dash" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
   <img class="game-thumb" src="https://play-lh.googleusercontent.com/CMz6U9rGZyC2I6aPT6Hrr2qRIQkvM4O6z9TkYqK65aS4VrNBGpRfP4E8LEGSJk5YwQ=w240-h480-rw" alt="Cookie Clicker" onclick="loadGame('https://cookieclickerunblocked.github.io', 'https://cookieclicker.io')">
@@ -112,12 +106,10 @@
 <button id="switchUrlBtn" onclick="switchToAltUrl()">Try Alternative Game</button>
 
 <div id="statusMessage">Game Frame is OFF</div>
-
 <div id="iframe-instructions">
   <p><strong>How the Game Frame Works:</strong></p>
   <p>If the game fails to load, it will auto-switch to an alternate URL. If still blocked, click the button above.</p>
 </div>
-
 <div id="afkBlur"></div>
 
 <script>
@@ -142,6 +134,8 @@
   function panic() {
     document.getElementById("gameFrame").src = "about:blank";
     document.getElementById("statusMessage").innerText = "Game closed.";
+    document.getElementById("page-title").innerText = "Google Docs";
+    document.getElementById("favicon").href = "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico";
   }
 
   function cloak(title, favicon) {
@@ -158,10 +152,9 @@
   }
 
   function toggleMobile() {
-    alert("Mobile mode toggled (this is just a placeholder for any future scaling tweaks)");
+    alert("Mobile mode toggled (placeholder)");
   }
 
-  // Matrix background
   const canvas = document.getElementById("matrix-canvas");
   const ctx = canvas.getContext("2d");
   canvas.height = window.innerHeight;
@@ -180,16 +173,12 @@
       const text = letters[Math.floor(Math.random() * letters.length)];
       const x = index * fontSize;
       ctx.fillText(text, x, y * fontSize);
-      if (y * fontSize > canvas.height || Math.random() > 0.975) {
-        drops[index] = 0;
-      }
+      if (y * fontSize > canvas.height || Math.random() > 0.975) drops[index] = 0;
       drops[index]++;
     });
   }
-
   setInterval(draw, 33);
 
-  // AFK detection
   function resetAFKTimer() {
     clearTimeout(afkTimer);
     document.getElementById("afkBlur").style.display = "none";
@@ -197,12 +186,22 @@
       document.getElementById("afkBlur").style.display = "block";
     }, 30000);
   }
-
   ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evt =>
     document.addEventListener(evt, resetAFKTimer)
   );
-
   resetAFKTimer();
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) panic();
+  });
+
+  setInterval(() => {
+    const badWords = ["goguardian", "classwize", "linewize", "teacher", "monitoring", "focus mode"];
+    const title = document.title.toLowerCase();
+    if (badWords.some(word => title.includes(word))) {
+      panic();
+    }
+  }, 2000);
 </script>
 </body>
 </html>
