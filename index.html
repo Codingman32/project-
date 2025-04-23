@@ -2,73 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title id="page-title">Google Sheets</title>
-  <link id="favicon" rel="icon" href="https://ssl.gstatic.com/sheets/images/favicon_v1.png" type="image/x-icon">
+  <title id="page-title">Quiz Portal</title>
+  <link id="favicon" rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
+      margin: 0; padding: 0;
       font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #222;
     }
-    #fakeScreen, #realSite {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    #fakeScreen {
+    header {
       background: #fff;
-      z-index: 10000;
+      padding: 10px 20px;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+    }
+    .grid {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      grid-auto-rows: 40px;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 15px;
+      padding: 20px;
     }
-    .cell {
-      border: 1px solid #ddd;
-      padding: 4px;
-      font-size: 12px;
-      user-select: none;
-    }
-    #realSite {
-      display: none;
-      background: black;
-      color: #0f0;
-      font-family: monospace;
-      padding: 10px;
-      overflow: auto;
-    }
-    button {
-      background: black;
-      color: #0f0;
-      border: 1px solid #0f0;
-      padding: 5px 10px;
-      margin: 5px;
+    .game {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
       cursor: pointer;
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
     }
-    .game-thumb {
-      width: 100px;
+    .game:hover {
+      box-shadow: 0 0 10px #ccc;
+    }
+    .game img {
+      width: 100%;
       height: 100px;
       object-fit: cover;
-      border: 1px solid #0f0;
-      cursor: pointer;
-      margin: 5px;
     }
-    iframe {
+    .game-title {
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+    #gameFrame {
+      display: none;
       width: 100%;
-      height: 70vh;
+      height: calc(100vh - 60px);
       border: none;
-      margin-top: 10px;
+    }
+    .topbar {
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+    button {
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      font-size: 14px;
+      cursor: pointer;
     }
     #afkBlur {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       backdrop-filter: blur(20px);
       z-index: 9999;
       display: none;
@@ -77,112 +79,114 @@
 </head>
 <body>
 
-  <!-- Fake Google Sheet -->
-  <div id="fakeScreen"></div>
+<header>Student Learning Portal</header>
 
-  <!-- Real Game Hub -->
-  <div id="realSite">
-    <div>
-      <button onclick="panic()">Panic</button>
-      <button onclick="toggleFullScreen()">Fullscreen</button>
-      <button onclick="cloak('Google Docs','https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Google Docs</button>
-      <button onclick="cloak('Google Drive','https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.ico')">Google Drive</button>
-      <button onclick="cloak('Google Classroom','https://ssl.gstatic.com/classroom/favicon.png')">Google Classroom</button>
-    </div>
-    <div>
-      <img class="game-thumb" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Retro_Bowl_cover.png/220px-Retro_Bowl_cover.png" onclick="loadGame('https://retrobowlunblocked.github.io','https://ubg98.github.io')">
-      <img class="game-thumb" src="https://play-lh.googleusercontent.com/pKFM21AqheVR6AfegHu4L9kxALgBpdKylN-VRo04wTh5I0WZhMfCS6bQaCvV2RdfKg" onclick="loadGame('https://geometrydashonline.com','https://slopegame.online')">
-      <img class="game-thumb" src="https://cdn.akamai.steamstatic.com/steam/apps/1986180/header.jpg" onclick="loadGame('https://fnfunblocked.github.io','https://fnf.io')">
-      <img class="game-thumb" src="https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Among_Us_cover_art.svg/1200px-Among_Us_cover_art.svg.png" onclick="loadGame('https://amongusunblocked.github.io','https://amongus.io')">
-    </div>
-    <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
-    <button onclick="switchToAltUrl()">Try Alternative Game</button>
-    <div id="afkBlur"></div>
+<div class="topbar" id="topbar">
+  <div>
+    <button onclick="panic()">Panic</button>
+    <button onclick="cloak('Google Docs','https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Docs</button>
+    <button onclick="cloak('Google Drive','https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.ico')">Drive</button>
+    <button onclick="cloak('Google Classroom','https://ssl.gstatic.com/classroom/favicon.png')">Classroom</button>
+    <button onclick="toggleFullScreen()">Fullscreen</button>
   </div>
+  <div>
+    <button onclick="exitGame()">Exit Game</button>
+  </div>
+</div>
 
-  <script>
-    // Generate fake sheet cells
-    const sheet = document.getElementById("fakeScreen");
-    for (let i = 0; i < 800; i++) {
-      const div = document.createElement("div");
-      div.className = "cell";
-      div.textContent = i % 10 === 0 ? "Student " + (i / 10 | 0) : Math.floor(Math.random() * 100);
-      sheet.appendChild(div);
+<div class="grid" id="gameGrid">
+  <div class="game" onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">
+    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Retro_Bowl_cover.png/220px-Retro_Bowl_cover.png">
+    <div class="game-title">Retro Bowl</div>
+  </div>
+  <div class="game" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
+    <img src="https://play-lh.googleusercontent.com/pKFM21AqheVR6AfegHu4L9kxALgBpdKylN-VRo04wTh5I0WZhMfCS6bQaCvV2RdfKg">
+    <div class="game-title">Geometry Dash</div>
+  </div>
+  <div class="game" onclick="loadGame('https://cookieclickerunblocked.github.io', 'https://cookieclicker.io')">
+    <img src="https://play-lh.googleusercontent.com/CMz6U9rGZyC2I6aPT6Hrr2qRIQkvM4O6z9TkYqK65aS4VrNBGpRfP4E8LEGSJk5YwQ=w240-h480-rw">
+    <div class="game-title">Cookie Clicker</div>
+  </div>
+  <div class="game" onclick="loadGame('https://fnfunblocked.github.io', 'https://fnf.io')">
+    <img src="https://cdn.akamai.steamstatic.com/steam/apps/1986180/header.jpg">
+    <div class="game-title">Friday Night Funkin'</div>
+  </div>
+</div>
+
+<iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+
+<div id="afkBlur"></div>
+
+<script>
+  let primaryURL = '', alternateURL = '', afkTimer;
+
+  function loadGame(url, altUrl) {
+    primaryURL = url;
+    alternateURL = altUrl;
+    document.getElementById("gameGrid").style.display = "none";
+    document.getElementById("topbar").style.display = "flex";
+    const frame = document.getElementById("gameFrame");
+    frame.style.display = "block";
+    frame.src = url;
+  }
+
+  function switchToAltUrl() {
+    if (alternateURL) {
+      document.getElementById("gameFrame").src = alternateURL;
     }
+  }
 
-    // Triple tap unlock
-    let tapCount = 0;
-    let tapTimeout;
-    document.addEventListener("click", () => {
-      tapCount++;
-      clearTimeout(tapTimeout);
-      tapTimeout = setTimeout(() => tapCount = 0, 500);
-      if (tapCount >= 3) {
-        document.getElementById("fakeScreen").style.display = "none";
-        document.getElementById("realSite").style.display = "block";
-      }
-    });
+  function exitGame() {
+    document.getElementById("gameFrame").src = "about:blank";
+    document.getElementById("gameFrame").style.display = "none";
+    document.getElementById("topbar").style.display = "none";
+    document.getElementById("gameGrid").style.display = "grid";
+  }
 
-    // Game logic
-    let primaryURL = '', alternateURL = '', afkTimer;
+  function panic() {
+    exitGame();
+    document.title = "Google Docs";
+    document.getElementById("favicon").href = "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico";
+  }
 
-    function loadGame(url, altUrl) {
-      primaryURL = url;
-      alternateURL = altUrl;
-      document.getElementById("gameFrame").src = url;
+  function cloak(title, favicon) {
+    document.title = title;
+    document.getElementById("favicon").href = favicon;
+  }
+
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
     }
+  }
 
-    function switchToAltUrl() {
-      if (alternateURL) {
-        document.getElementById("gameFrame").src = alternateURL;
-      }
+  function resetAFKTimer() {
+    clearTimeout(afkTimer);
+    document.getElementById("afkBlur").style.display = "none";
+    afkTimer = setTimeout(() => {
+      document.getElementById("afkBlur").style.display = "block";
+    }, 30000);
+  }
+
+  ["mousemove", "keydown", "click", "touchstart"].forEach(evt =>
+    document.addEventListener(evt, resetAFKTimer)
+  );
+  resetAFKTimer();
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) panic();
+  });
+
+  setInterval(() => {
+    const badWords = ["goguardian", "classwize", "linewize", "teacher", "monitoring", "focus mode"];
+    const title = document.title.toLowerCase();
+    if (badWords.some(word => title.includes(word))) {
+      panic();
     }
+  }, 2000);
+</script>
 
-    function panic() {
-      document.getElementById("gameFrame").src = "about:blank";
-      document.title = "Google Docs";
-      document.getElementById("favicon").href = "https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico";
-    }
-
-    function cloak(title, favicon) {
-      document.title = title;
-      document.getElementById("favicon").href = favicon;
-    }
-
-    function toggleFullScreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-      } else {
-        document.exitFullscreen();
-      }
-    }
-
-    // AFK blur
-    function resetAFKTimer() {
-      clearTimeout(afkTimer);
-      document.getElementById("afkBlur").style.display = "none";
-      afkTimer = setTimeout(() => {
-        document.getElementById("afkBlur").style.display = "block";
-      }, 30000);
-    }
-    ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evt =>
-      document.addEventListener(evt, resetAFKTimer)
-    );
-    resetAFKTimer();
-
-    // Tab visibility = panic
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) panic();
-    });
-
-    // Title check for monitoring tools
-    setInterval(() => {
-      const badWords = ["goguardian", "classwize", "linewize", "teacher", "monitoring", "focus mode"];
-      const title = document.title.toLowerCase();
-      if (badWords.some(word => title.includes(word))) {
-        panic();
-      }
-    }, 2000);
-  </script>
 </body>
 </html>
