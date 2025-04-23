@@ -9,51 +9,43 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: white;
-      color: black;
+      height: 100%;
+      overflow: hidden;
       font-family: Arial, sans-serif;
-      overflow-x: hidden;
     }
-    #fake-sheet {
+
+    #fakeScreen, #realSite {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 3000px;
+      height: 100%;
+    }
+
+    #fakeScreen {
+      background: #fff;
+      z-index: 10000;
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       grid-auto-rows: 40px;
-      border: 1px solid #ccc;
     }
+
     .cell {
-      border: 1px solid #e0e0e0;
-      padding: 5px;
+      border: 1px solid #ddd;
+      padding: 4px;
       font-size: 12px;
+      user-select: none;
     }
-    #unlock-tip {
-      margin: 30px;
-      font-size: 14px;
-      color: #888;
-      text-align: center;
-    }
-    #hidden-hub {
+
+    #realSite {
       display: none;
       background: black;
       color: #0f0;
       font-family: monospace;
-      padding: 20px;
+      padding: 10px;
+      overflow: auto;
     }
-    .game-thumb {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border: 1px solid #0f0;
-      cursor: pointer;
-      margin: 5px;
-    }
-    iframe {
-      width: 100%;
-      height: 70vh;
-      border: none;
-      margin-top: 10px;
-    }
+
     button {
       background: black;
       color: #0f0;
@@ -62,6 +54,23 @@
       margin: 5px;
       cursor: pointer;
     }
+
+    .game-thumb {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border: 1px solid #0f0;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 70vh;
+      border: none;
+      margin-top: 10px;
+    }
+
     #afkBlur {
       position: fixed;
       top: 0;
@@ -77,28 +86,10 @@
 <body>
 
 <!-- Fake Google Sheets UI -->
-<div id="fake-sheet">
-  <!-- Generate fake cells -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const grid = document.getElementById('fake-sheet');
-      for (let i = 0; i < 800; i++) {
-        let cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.textContent = i % 10 === 0 ? `Student ${Math.floor(i / 10)}` : Math.floor(Math.random() * 100);
-        grid.appendChild(cell);
-      }
-    });
-  </script>
-</div>
+<div id="fakeScreen"></div>
 
-<div id="unlock-tip">
-  <p>You’ve reached the bottom of the sheet.</p>
-  <p><em>Triple tap anywhere to unlock the report summary...</em></p>
-</div>
-
-<!-- Hidden Game Hub -->
-<div id="hidden-hub">
+<!-- Real Site Hidden -->
+<div id="realSite">
   <div>
     <button onclick="panic()">Panic</button>
     <button onclick="toggleFullScreen()">Fullscreen</button>
@@ -106,31 +97,44 @@
     <button onclick="cloak('Google Drive','https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.ico')">Google Drive</button>
     <button onclick="cloak('Google Classroom','https://ssl.gstatic.com/classroom/favicon.png')">Google Classroom</button>
   </div>
+
   <div>
     <img class="game-thumb" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Retro_Bowl_cover.png/220px-Retro_Bowl_cover.png" onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">
     <img class="game-thumb" src="https://play-lh.googleusercontent.com/pKFM21AqheVR6AfegHu4L9kxALgBpdKylN-VRo04wTh5I0WZhMfCS6bQaCvV2RdfKg" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
     <img class="game-thumb" src="https://cdn.akamai.steamstatic.com/steam/apps/1986180/header.jpg" onclick="loadGame('https://fnfunblocked.github.io', 'https://fnf.io')">
     <img class="game-thumb" src="https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Among_Us_cover_art.svg/1200px-Among_Us_cover_art.svg.png" onclick="loadGame('https://amongusunblocked.github.io', 'https://amongus.io')">
   </div>
+
   <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
   <button onclick="switchToAltUrl()">Try Alternative Game</button>
   <div id="afkBlur"></div>
 </div>
 
 <script>
+  // Generate fake spreadsheet
+  const sheet = document.getElementById("fakeScreen");
+  for (let i = 0; i < 800; i++) {
+    const d = document.createElement("div");
+    d.className = "cell";
+    d.textContent = i % 10 === 0 ? "Student " + (i / 10 | 0) : Math.floor(Math.random() * 100);
+    sheet.appendChild(d);
+  }
+
+  // Triple tap to unlock
   let tapCount = 0;
   let tapTimeout;
-  let primaryURL = '', alternateURL = '', afkTimer;
-
   document.addEventListener("click", () => {
     tapCount++;
     clearTimeout(tapTimeout);
-    tapTimeout = setTimeout(() => tapCount = 0, 600);
+    tapTimeout = setTimeout(() => tapCount = 0, 500);
     if (tapCount >= 3) {
-      document.getElementById("hidden-hub").style.display = "block";
-      window.scrollTo(0, document.body.scrollHeight);
+      document.getElementById("fakeScreen").style.display = "none";
+      document.getElementById("realSite").style.display = "block";
     }
   });
+
+  // Game functions
+  let primaryURL = '', alternateURL = '', afkTimer;
 
   function loadGame(url, altUrl) {
     primaryURL = url;
@@ -163,6 +167,7 @@
     }
   }
 
+  // AFK and Visibility Monitoring
   function resetAFKTimer() {
     clearTimeout(afkTimer);
     document.getElementById("afkBlur").style.display = "none";
@@ -174,6 +179,7 @@
   ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evt =>
     document.addEventListener(evt, resetAFKTimer)
   );
+
   resetAFKTimer();
 
   document.addEventListener("visibilitychange", () => {
