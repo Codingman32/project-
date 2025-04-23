@@ -6,89 +6,23 @@
   <link id="favicon" rel="icon" href="https://ssl.gstatic.com/sheets/images/favicon_v1.png" type="image/x-icon" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-    }
-
-    #fakeScreen, #realSite {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    #fakeScreen {
-      background: #fff;
-      z-index: 10000;
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      grid-auto-rows: 40px;
-    }
-
-    .cell {
-      border: 1px solid #ddd;
-      padding: 4px;
-      font-size: 12px;
-      user-select: none;
-    }
-
-    #realSite {
-      display: none;
-      background: black;
-      color: #0f0;
-      font-family: monospace;
-      padding: 10px;
-      overflow: auto;
-    }
-
-    button {
-      background: black;
-      color: #0f0;
-      border: 1px solid #0f0;
-      padding: 5px 10px;
-      margin: 5px;
-      cursor: pointer;
-    }
-
-    .game-thumb {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border: 1px solid #0f0;
-      cursor: pointer;
-      margin: 5px;
-    }
-
-    iframe {
-      width: 100%;
-      height: 70vh;
-      border: none;
-      margin-top: 10px;
-    }
-
-    #afkBlur {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      backdrop-filter: blur(20px);
-      z-index: 9999;
-      display: none;
-    }
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: Arial, sans-serif; }
+    #fakeScreen, #realSite { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    #fakeScreen { background: #fff; z-index: 10000; display: grid; grid-template-columns: repeat(10, 1fr); grid-auto-rows: 40px; }
+    .cell { border: 1px solid #ddd; padding: 4px; font-size: 12px; user-select: none; }
+    #realSite { display: none; background: black; color: #0f0; font-family: monospace; padding: 10px; overflow: auto; }
+    button { background: black; color: #0f0; border: 1px solid #0f0; padding: 5px 10px; margin: 5px; cursor: pointer; }
+    .game-thumb { width: 100px; height: 100px; object-fit: cover; border: 1px solid #0f0; cursor: pointer; margin: 5px; }
+    iframe { width: 100%; height: 70vh; border: none; margin-top: 10px; }
+    #afkBlur { position: fixed; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(20px); z-index: 9999; display: none; }
   </style>
 </head>
 <body>
 
-<!-- Fake Google Sheets UI -->
+<!-- FAKE GOOGLE SHEET -->
 <div id="fakeScreen"></div>
 
-<!-- Real Site Hidden -->
+<!-- REAL GAME HUB -->
 <div id="realSite">
   <div>
     <button onclick="panic()">Panic</button>
@@ -98,11 +32,16 @@
     <button onclick="cloak('Google Classroom','https://ssl.gstatic.com/classroom/favicon.png')">Google Classroom</button>
   </div>
 
-  <div>
-    <img class="game-thumb" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Retro_Bowl_cover.png/220px-Retro_Bowl_cover.png" onclick="loadGame('https://retrobowlunblocked.github.io', 'https://ubg98.github.io')">
-    <img class="game-thumb" src="https://play-lh.googleusercontent.com/pKFM21AqheVR6AfegHu4L9kxALgBpdKylN-VRo04wTh5I0WZhMfCS6bQaCvV2RdfKg" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
-    <img class="game-thumb" src="https://cdn.akamai.steamstatic.com/steam/apps/1986180/header.jpg" onclick="loadGame('https://fnfunblocked.github.io', 'https://fnf.io')">
-    <img class="game-thumb" src="https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Among_Us_cover_art.svg/1200px-Among_Us_cover_art.svg.png" onclick="loadGame('https://amongusunblocked.github.io', 'https://amongus.io')">
+  <!-- GAME THUMBNAILS -->
+  <div id="games">
+    <img class="game-thumb" src="https://retrobowl.me/icon.png" onclick="loadGame('https://retrobowl.me', 'https://retrobowlunblocked.github.io')">
+    <img class="game-thumb" src="https://geometrydashonline.com/icon.png" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
+    <img class="game-thumb" src="https://fnfunblocked.github.io/fnf.png" onclick="loadGame('https://fnfunblocked.github.io', 'https://fnf.io')">
+    <img class="game-thumb" src="https://amongus-unblocked.org/amongus.jpg" onclick="loadGame('https://amongus-unblocked.org', 'https://amongus.io')">
+    <img class="game-thumb" src="https://slopegame.online/favicon.ico" onclick="loadGame('https://slopegame.online', 'https://geometrydashonline.com')">
+    <img class="game-thumb" src="https://cookieclickerunblocked.com/favicon.ico" onclick="loadGame('https://cookieclickerunblocked.com', 'https://cookieclicker.io')">
+    <img class="game-thumb" src="https://1v1.lol/favicon.ico" onclick="loadGame('https://1v1.lol', 'https://1v1.lol/play')">
+    <img class="game-thumb" src="https://krunker.io/img/favicon.png" onclick="loadGame('https://krunker.io', 'https://krunker-unblocked.org')">
   </div>
 
   <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
@@ -110,8 +49,9 @@
   <div id="afkBlur"></div>
 </div>
 
+<!-- SCRIPTS -->
 <script>
-  // Generate fake spreadsheet
+  // Build fake sheet
   const sheet = document.getElementById("fakeScreen");
   for (let i = 0; i < 800; i++) {
     const d = document.createElement("div");
@@ -120,9 +60,8 @@
     sheet.appendChild(d);
   }
 
-  // Triple tap to unlock
-  let tapCount = 0;
-  let tapTimeout;
+  // Triple tap unlock
+  let tapCount = 0, tapTimeout;
   document.addEventListener("click", () => {
     tapCount++;
     clearTimeout(tapTimeout);
@@ -133,9 +72,8 @@
     }
   });
 
-  // Game functions
+  // Game loader
   let primaryURL = '', alternateURL = '', afkTimer;
-
   function loadGame(url, altUrl) {
     primaryURL = url;
     alternateURL = altUrl;
@@ -167,7 +105,7 @@
     }
   }
 
-  // AFK and Visibility Monitoring
+  // AFK logic
   function resetAFKTimer() {
     clearTimeout(afkTimer);
     document.getElementById("afkBlur").style.display = "none";
@@ -175,24 +113,23 @@
       document.getElementById("afkBlur").style.display = "block";
     }, 30000);
   }
-
-  ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evt =>
-    document.addEventListener(evt, resetAFKTimer)
-  );
-
+  ["mousemove", "keydown", "click", "touchstart"].forEach(e => document.addEventListener(e, resetAFKTimer));
   resetAFKTimer();
 
+  // Tab switch detection
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) panic();
   });
 
+  // Snitch title detector
   setInterval(() => {
     const badWords = ["goguardian", "classwize", "linewize", "teacher", "monitoring", "focus mode"];
     const title = document.title.toLowerCase();
-    if (badWords.some(word => title.includes(word))) {
+    if (badWords.some(w => title.includes(w))) {
       panic();
     }
   }, 2000);
 </script>
+
 </body>
 </html>
