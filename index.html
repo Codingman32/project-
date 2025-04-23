@@ -1,29 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title id="page-title">Google Sheets</title>
-  <link id="favicon" rel="icon" href="https://ssl.gstatic.com/sheets/images/favicon_v1.png" type="image/x-icon" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link id="favicon" rel="icon" href="https://ssl.gstatic.com/sheets/images/favicon_v1.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: Arial, sans-serif; }
-    #fakeScreen, #realSite { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    #fakeScreen { background: #fff; z-index: 10000; display: grid; grid-template-columns: repeat(10, 1fr); grid-auto-rows: 40px; }
-    .cell { border: 1px solid #ddd; padding: 4px; font-size: 12px; user-select: none; }
-    #realSite { display: none; background: black; color: #0f0; font-family: monospace; padding: 10px; overflow: auto; }
-    button { background: black; color: #0f0; border: 1px solid #0f0; padding: 5px 10px; margin: 5px; cursor: pointer; }
-    .game-thumb { width: 100px; height: 100px; object-fit: cover; border: 1px solid #0f0; cursor: pointer; margin: 5px; }
-    iframe { width: 100%; height: 70vh; border: none; margin-top: 10px; }
-    #afkBlur { position: fixed; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(20px); z-index: 9999; display: none; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    #fakeScreen, #realSite {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #fakeScreen {
+      background: #fff;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+    }
+    #toolbar {
+      background: #f1f3f4;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-bottom: 1px solid #ccc;
+      font-size: 13px;
+      color: #202124;
+    }
+    #toolbar span {
+      cursor: pointer;
+      padding: 3px 6px;
+      border-radius: 3px;
+    }
+    #toolbar span:hover {
+      background: #e8eaed;
+    }
+    .spreadsheet {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      grid-auto-rows: 28px;
+    }
+    .cell {
+      border: 1px solid #ccc;
+      font-size: 12px;
+      padding: 2px;
+    }
+    #unsaved {
+      background: #fff8e1;
+      color: #7f6000;
+      padding: 8px;
+      font-size: 13px;
+      border-bottom: 1px solid #eedc82;
+    }
+    #realSite {
+      display: none;
+      background: black;
+      color: #0f0;
+      font-family: monospace;
+      padding: 10px;
+      overflow: auto;
+    }
+    button {
+      background: black;
+      color: #0f0;
+      border: 1px solid #0f0;
+      padding: 5px 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .game-thumb {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border: 1px solid #0f0;
+      cursor: pointer;
+      margin: 5px;
+    }
+    iframe {
+      width: 100%;
+      height: 70vh;
+      border: none;
+      margin-top: 10px;
+    }
+    #afkBlur {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: none;
+    }
+    #compromised {
+      display: none;
+      background: red;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 20px;
+      text-align: center;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    #terminal {
+      display: none;
+      background: black;
+      color: lime;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 200px;
+      z-index: 99999;
+    }
   </style>
 </head>
 <body>
 
-<!-- FAKE GOOGLE SHEET -->
-<div id="fakeScreen"></div>
+<div id="fakeScreen">
+  <div id="unsaved">All changes saved in Drive</div>
+  <div id="toolbar">
+    <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span>
+    <span>Data</span><span>Tools</span><span>Extensions</span><span>Help</span>
+  </div>
+  <div class="spreadsheet" id="sheetGrid"></div>
+</div>
 
-<!-- REAL GAME HUB -->
 <div id="realSite">
+  <div id="compromised">YOU'VE BEEN COMPROMISED. CLOSE THIS TAB NOW.</div>
   <div>
     <button onclick="panic()">Panic</button>
     <button onclick="toggleFullScreen()">Fullscreen</button>
@@ -31,36 +150,32 @@
     <button onclick="cloak('Google Drive','https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.ico')">Google Drive</button>
     <button onclick="cloak('Google Classroom','https://ssl.gstatic.com/classroom/favicon.png')">Google Classroom</button>
   </div>
-
-  <!-- GAME THUMBNAILS -->
   <div id="games">
-    <img class="game-thumb" src="https://retrobowl.me/icon.png" onclick="loadGame('https://retrobowl.me', 'https://retrobowlunblocked.github.io')">
-    <img class="game-thumb" src="https://geometrydashonline.com/icon.png" onclick="loadGame('https://geometrydashonline.com', 'https://slopegame.online')">
-    <img class="game-thumb" src="https://fnfunblocked.github.io/fnf.png" onclick="loadGame('https://fnfunblocked.github.io', 'https://fnf.io')">
-    <img class="game-thumb" src="https://amongus-unblocked.org/amongus.jpg" onclick="loadGame('https://amongus-unblocked.org', 'https://amongus.io')">
-    <img class="game-thumb" src="https://slopegame.online/favicon.ico" onclick="loadGame('https://slopegame.online', 'https://geometrydashonline.com')">
-    <img class="game-thumb" src="https://cookieclickerunblocked.com/favicon.ico" onclick="loadGame('https://cookieclickerunblocked.com', 'https://cookieclicker.io')">
-    <img class="game-thumb" src="https://1v1.lol/favicon.ico" onclick="loadGame('https://1v1.lol', 'https://1v1.lol/play')">
-    <img class="game-thumb" src="https://krunker.io/img/favicon.png" onclick="loadGame('https://krunker.io', 'https://krunker-unblocked.org')">
+    <img class="game-thumb" src="https://retrobowl.me/icon.png" onclick="loadGame('https://retrobowl.me','https://retrobowlunblocked.github.io')">
+    <img class="game-thumb" src="https://geometrydashonline.com/icon.png" onclick="loadGame('https://geometrydashonline.com','https://slopegame.online')">
+    <img class="game-thumb" src="https://fnfunblocked.github.io/fnf.png" onclick="loadGame('https://fnfunblocked.github.io','https://fnf.io')">
+    <img class="game-thumb" src="https://amongus-unblocked.org/amongus.jpg" onclick="loadGame('https://amongus-unblocked.org','https://amongus.io')">
+    <img class="game-thumb" src="https://slopegame.online/favicon.ico" onclick="loadGame('https://slopegame.online','https://geometrydashonline.com')">
+    <img class="game-thumb" src="https://cookieclickerunblocked.com/favicon.ico" onclick="loadGame('https://cookieclickerunblocked.com','https://cookieclicker.io')">
+    <img class="game-thumb" src="https://1v1.lol/favicon.ico" onclick="loadGame('https://1v1.lol','https://1v1.lol/play')">
+    <img class="game-thumb" src="https://krunker.io/img/favicon.png" onclick="loadGame('https://krunker.io','https://krunker-unblocked.org')">
   </div>
-
   <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
   <button onclick="switchToAltUrl()">Try Alternative Game</button>
   <div id="afkBlur"></div>
 </div>
 
-<!-- SCRIPTS -->
+<div id="terminal" contenteditable="true">// Hidden terminal: Press '/' to toggle</div>
+
 <script>
-  // Build fake sheet
-  const sheet = document.getElementById("fakeScreen");
-  for (let i = 0; i < 800; i++) {
+  const sheet = document.getElementById("sheetGrid");
+  for (let i = 0; i < 1000; i++) {
     const d = document.createElement("div");
     d.className = "cell";
-    d.textContent = i % 10 === 0 ? "Student " + (i / 10 | 0) : Math.floor(Math.random() * 100);
+    d.textContent = i % 20 === 0 ? "=SUM(B2:B10)" : Math.floor(Math.random() * 100);
     sheet.appendChild(d);
   }
 
-  // Triple tap unlock
   let tapCount = 0, tapTimeout;
   document.addEventListener("click", () => {
     tapCount++;
@@ -72,8 +187,8 @@
     }
   });
 
-  // Game loader
   let primaryURL = '', alternateURL = '', afkTimer;
+
   function loadGame(url, altUrl) {
     primaryURL = url;
     alternateURL = altUrl;
@@ -81,9 +196,7 @@
   }
 
   function switchToAltUrl() {
-    if (alternateURL) {
-      document.getElementById("gameFrame").src = alternateURL;
-    }
+    if (alternateURL) document.getElementById("gameFrame").src = alternateURL;
   }
 
   function panic() {
@@ -98,14 +211,10 @@
   }
 
   function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
   }
 
-  // AFK logic
   function resetAFKTimer() {
     clearTimeout(afkTimer);
     document.getElementById("afkBlur").style.display = "none";
@@ -113,22 +222,31 @@
       document.getElementById("afkBlur").style.display = "block";
     }, 30000);
   }
-  ["mousemove", "keydown", "click", "touchstart"].forEach(e => document.addEventListener(e, resetAFKTimer));
+
+  ["mousemove", "keydown", "click", "touchstart"].forEach(e =>
+    document.addEventListener(e, resetAFKTimer)
+  );
   resetAFKTimer();
 
-  // Tab switch detection
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) panic();
   });
 
-  // Snitch title detector
   setInterval(() => {
     const badWords = ["goguardian", "classwize", "linewize", "teacher", "monitoring", "focus mode"];
     const title = document.title.toLowerCase();
     if (badWords.some(w => title.includes(w))) {
-      panic();
+      document.getElementById("gameFrame").src = "about:blank";
+      document.getElementById("compromised").style.display = "block";
     }
   }, 2000);
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "/") {
+      const term = document.getElementById("terminal");
+      term.style.display = term.style.display === "block" ? "none" : "block";
+    }
+  });
 </script>
 
 </body>
